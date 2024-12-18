@@ -41,7 +41,7 @@
           type="text"
           v-model="formData.location"
           id="location"
-          placeholder="np. Warszawa, ul. Przykladowa 1"
+          placeholder="np. Legnica, ul. Lotnicza 1 lub współrzędne"
           required
         />
       </div>
@@ -49,10 +49,19 @@
       <!-- Przycisk wysyłania -->
       <button type="submit" :disabled="priceError">Wyślij</button>
     </form>
+
+    <!-- Dodanie sekcji mapy -->
+    <div>
+      <h2>Mapa stacji:</h2>
+      <div id="map"></div>
+    </div>
   </div>
 </template>
 
 <script>
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+
 export default {
   data() {
     return {
@@ -60,9 +69,11 @@ export default {
         fuelType: '',
         price: '',
         photo: null,
-        location: ''
+        location: '' // Możliwość ręcznego wpisania lub uzupełnienia po kliknięciu na mapę
       },
-      priceError: false
+      priceError: false,
+      map: null,
+      marker: null, // Przechowuje znacznik na mapie
     };
   },
   methods: {
@@ -105,9 +116,36 @@ export default {
         photo: null,
         location: ''
       };
-      this.$refs.photoInput.value = null; // Resetuje input typu file
-    }
-  }
+    },
+    initMap() {
+      // Inicjalizacja mapy
+      this.map = L.map("map").setView([51.2070, 16.1551], 13); // Legnica
+
+      // Dodanie warstwy kafelków
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(this.map);
+
+      // Obsługa kliknięcia na mapie
+      this.map.on("click", (event) => {
+        const { lat, lng } = event.latlng;
+
+        // Aktualizacja współrzędnych w formularzu
+        this.formData.location = `${lat}, ${lng}`;
+
+        // Dodanie lub aktualizacja markera
+        if (this.marker) {
+          this.marker.setLatLng([lat, lng]);
+        } else {
+          this.marker = L.marker([lat, lng]).addTo(this.map);
+        }
+      });
+    },
+  },
+  mounted() {
+    this.initMap();
+  },
 };
 </script>
 
@@ -152,5 +190,10 @@ button:disabled {
 .error {
   color: red;
   font-size: 14px;
+}
+#map {
+  width: 100%;
+  height: 400px;
+  margin-top: 20px;
 }
 </style>
