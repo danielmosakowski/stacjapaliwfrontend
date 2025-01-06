@@ -41,16 +41,17 @@
           type="text"
           v-model="formData.location"
           id="location"
-          placeholder="np. Legnica, ul. Lotnicza 1 lub współrzędne"
+          placeholder="Wybierz stację z mapy"
+          readonly
           required
         />
       </div>
 
       <!-- Przycisk wysyłania -->
-      <button type="submit" :disabled="priceError">Wyślij</button>
+      <button type="submit" :disabled="!formData.location || priceError">Wyślij</button>
     </form>
 
-    <!-- Dodanie sekcji mapy -->
+    <!-- Sekcja mapy -->
     <div>
       <h2>Mapa stacji:</h2>
       <div id="map"></div>
@@ -69,11 +70,26 @@ export default {
         fuelType: '',
         price: '',
         photo: null,
-        location: '' // Możliwość ręcznego wpisania lub uzupełnienia po kliknięciu na mapę
+        location: '', // Format: "latitude,longitude"
       },
       priceError: false,
       map: null,
-      marker: null, // Przechowuje znacznik na mapie
+      stations: [
+        { name: "Orlen", lat: 51.2094, lng: 16.1309, address: "Chojnowska 154, Legnica" },
+        { name: "Shell", lat: 51.1917, lng: 16.1276, address: "Złotoryjska 172, Legnica" },
+        { name: "Orlen", lat: 51.1777, lng: 16.1581, address: "Jaworzyńska 238, Legnica" },
+        { name: "MOL", lat: 51.1784, lng: 16.1567, address: "Nowodworska 30A, Legnica" },
+        { name: "Auchan", lat: 51.1841, lng: 16.1685, address: "Roberta Schumana 11, Legnica" },
+        { name: "Circle K", lat: 51.2049, lng: 16.1581, address: "Gwarna Muzealna, Legnica" },
+        { name: "Orlen", lat: 51.2141, lng: 16.1631, address: "Władysława Łokietka 9, Legnica" },
+        { name: "AMIC", lat: 51.2121, lng: 16.1672, address: "Pocztowa 2, Legnica" },
+        { name: "Orlen", lat: 51.2069, lng: 16.1816, address: "Gwiezdna 10, Legnica" },
+        { name: "BP", lat: 51.2094, lng: 16.1861, address: "Wrocławska 151, Legnica" },
+        { name: "Shell", lat: 51.2043, lng: 16.1917, address: "aleja Piłsudskiego 11, Legnica" },
+        { name: "Orlen", lat: 51.2108, lng: 16.2014, address: "Spokojna 59, Legnica" },
+        { name: "Merkury", lat: 51.2175, lng: 16.1581, address: "Słubicka 4a, Legnica" },
+        { name: "LOTOS", lat: 51.2276, lng: 16.1642, address: "Poznańska 44, Legnica" },
+      ],
     };
   },
   methods: {
@@ -90,7 +106,7 @@ export default {
       formData.append('fuelType', this.formData.fuelType);
       formData.append('price', this.formData.price);
       formData.append('photo', this.formData.photo);
-      formData.append('location', this.formData.location);
+      formData.append('location', this.formData.location); // Przechowuje współrzędne
 
       try {
         const response = await fetch('https://your-backend-api.com/api/fuel-prices', {
@@ -114,7 +130,7 @@ export default {
         fuelType: '',
         price: '',
         photo: null,
-        location: ''
+        location: '',
       };
     },
     initMap() {
@@ -127,19 +143,18 @@ export default {
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(this.map);
 
-      // Obsługa kliknięcia na mapie
-      this.map.on("click", (event) => {
-        const { lat, lng } = event.latlng;
+      // Dodanie markerów dla stacji paliw
+      this.stations.forEach((station) => {
+        const marker = L.marker([station.lat, station.lng]).addTo(this.map);
+        marker.bindPopup(`
+          <strong>${station.name}</strong><br>
+          ${station.address || "Adres nieznany"}
+        `);
 
-        // Aktualizacja współrzędnych w formularzu
-        this.formData.location = `${lat}, ${lng}`;
-
-        // Dodanie lub aktualizacja markera
-        if (this.marker) {
-          this.marker.setLatLng([lat, lng]);
-        } else {
-          this.marker = L.marker([lat, lng]).addTo(this.map);
-        }
+        // Możliwość wybrania stacji przez kliknięcie na marker
+        marker.on("click", () => {
+          this.formData.location = `${station.lat},${station.lng}`; // Współrzędne stacji
+        });
       });
     },
   },
