@@ -4,8 +4,14 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
-const app = createApp(App)
+// Importowanie funkcji z navbar.js
+import { navbarAnimation, navbarToggle } from './navbar'
 
-app.use(router)
+const app = createApp(App);
 
-app.mount('#app')
+// Inicjalizowanie animacji navbaru
+navbarAnimation();
+navbarToggle();
+
+app.use(router);
+app.mount('#app');
