@@ -3,6 +3,12 @@
     <div class="container">
       <h1>Logowanie</h1>
 
+      <ul v-if="errors.length">
+        <li v-for="error in errors" :key="error" class="text-danger">
+          {{ error }}
+        </li>
+      </ul>
+
       <!-- Formularz logowania -->
       <form @submit.prevent="login" class="form-section">
         <div class="form-group">
@@ -31,16 +37,46 @@
   </main>
 </template>
 
-<script setup lang="ts">
+<script>
+import axios from "axios";
 import { ref } from 'vue';
 
-const email = ref('');
-const password = ref('');
+export default {
+  setup() {
+    const email = ref('');
+    const password = ref('');
+    const errors = ref([]);
 
-const login = () => {
-  console.log('Próba logowania:', { email: email.value, password: password.value });
-  // Dodaj logikę logowania tutaj
-};
+    const login = async () => {
+      errors.value = [];
+      try {
+        await axios.get('http://localhost:8000/sanctum/csrf-cookie');
+        const response = await axios.post('http://localhost:8000/api/login', {
+          email: email.value,
+          password: password.value
+        });
+
+        const token = response.data.token;
+        localStorage.setItem('authToken', token);
+        alert('Zalogowano pomyślnie!');
+
+      } catch (error) {
+        if (error.response && error.response.status === 422) {
+          errors.value = Object.values(error.response.data.errors).flat();
+        } else {
+          errors.value = ['Wystąpił błąd podczas logowania.'];
+        }
+      }
+    };
+
+    return {
+      email,
+      password,
+      errors,
+      login
+    };
+  }
+}
 </script>
 
 <style scoped>
@@ -84,7 +120,7 @@ input {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
-  box-sizing: border-box; /* Dodane, aby zachować odstępy wewnętrzne */
+  box-sizing: border-box;
 }
 
 button {
@@ -99,5 +135,9 @@ button {
 
 button:hover {
   background-color: #333;
+}
+
+.text-danger {
+  color: red;
 }
 </style>
