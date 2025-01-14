@@ -17,13 +17,7 @@
                 </li>
                 <li class="nav-item">
                   <RouterLink class="nav-link" to="/check">Wyszukiwarka</RouterLink>
-                </li>
-                <li class="nav-item">
-                  <RouterLink class="nav-link" to="/login">Logowanie</RouterLink>
-                </li>
-                <li class="nav-item">
-                  <RouterLink class="nav-link" to="/register">Rejestracja</RouterLink>
-                </li>
+                </li> 
               </ul>
 
               <!-- Login/Logout Section -->
