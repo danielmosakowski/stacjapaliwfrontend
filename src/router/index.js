@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import AboutView from '../views/AboutView.vue'
+import AboutView from '../views/Check.vue'
 import StudentView from '../views/Students/View.vue'
 import Register from "@/views/Auth/Register.vue";
 import Login from "@/views/Auth/Login.vue";
 import Dashboard from "@/views/Dashboard.vue";
 import Admin from "@/views/Admin.vue";
-
+import Check from "@/views/Check.vue";
 import store from "@/store/index.js";
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,9 +19,9 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue'),
+      path: '/check',
+      name: 'check',
+      component: Check,
     },
     {
       path: '/students',
@@ -52,7 +53,7 @@ const router = createRouter({
       meta: {
         requiresAuth: true
       }
-    },
+    }
   ],
 
   linkActiveClass: 'active',

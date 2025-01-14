@@ -5,6 +5,10 @@ import App from './App.vue'
 import router from './router/index.js'
 import store from './store/index.js'
 import axios from "axios";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap';
+
+
 
 const app = createApp(App)
 //axios.defaults.baseURL = 'http://localhost:8000/api';
