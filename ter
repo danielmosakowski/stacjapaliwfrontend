@@ -1,0 +1,118 @@
+[33mcommit ea07d5df9e7bb9fa04c9383e3a0245b3d943ce80[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Merge: ea59b1b 9377153
+Author: PrzemekTypa <127664097+PrzemekTypa@users.noreply.github.com>
+Date:   Tue Jan 14 17:19:39 2025 +0100
+
+    Merge pull request #5 from danielmosakowski/przemekBranch
+    
+    usunieto alert na widoku cen paliw
+
+[33mcommit 93771535f5d02bbc7ed51ea0d37892f61e702c6c[m[33m ([m[1;31morigin/przemekBranch[m[33m)[m
+Author: PrzemekTypa <przemyslaw.typa@studenci.collegiumwitelona.pl>
+Date:   Tue Jan 14 17:17:57 2025 +0100
+
+    usunieto alert na widoku cen paliw
+
+[33mcommit ea59b1be5c9b5de90c08af05c565358a3760485a[m
+Merge: 7d1888e 89bf0ad
+Author: PrzemekTypa <127664097+PrzemekTypa@users.noreply.github.com>
+Date:   Tue Jan 14 15:48:21 2025 +0100
+
+    Merge pull request #4 from danielmosakowski/przemekBranch
+    
+    zdublowane logowanie/rejestracja, usunięto z navbar.
+
+[33mcommit 89bf0ade34fb5315454f96ada2e09da4f88815e5[m
+Author: PrzemekTypa <przemyslaw.typa@studenci.collegiumwitelona.pl>
+Date:   Tue Jan 14 15:39:56 2025 +0100
+
+    usunieto zdublowane log/rej z navbar w App.vue
+
+[33mcommit 7eb7f53fc29c10da8581aaa8a1b320b134b8da6e[m
+Merge: 92fd848 7d1888e
+Author: PrzemekTypa <przemyslaw.typa@studenci.collegiumwitelona.pl>
+Date:   Tue Jan 14 15:19:42 2025 +0100
+
+    Merge branch 'master' of https://github.com/danielmosakowski/stacjapaliwfrontend into przemekBranch
+
+[33mcommit 7d1888e44c4889ffe24a4bc1c6f68c6db3a9231e[m
+Author: danielmosakowski <daniel.mosakowski@studenci.collegiumwitelona.pl>
+Date:   Tue Jan 14 13:20:13 2025 +0100
+
+    Wyszukiwarka. Mapa + rodzaj paliwa
+
+[33mcommit d2792c4cf5121518daa2d264ae6f17b69bdd5c78[m
+Author: danielmosakowski <daniel.mosakowski@studenci.collegiumwitelona.pl>
+Date:   Tue Jan 14 07:45:04 2025 +0100
+
+    Dodanie okienka dla admina
+
+[33mcommit ba3e82753341a96a1795c0b5a43208ffd680cc5f[m
+Merge: da6cc7e 88af49a
+Author: danielmosakowski <daniel.mosakowski@studenci.collegiumwitelona.pl>
+Date:   Tue Jan 7 19:26:15 2025 +0100
+
+    .
+
+[33mcommit 92fd848bdd93f20127447b2aa30e12719f045154[m
+Author: Dominik Kamiński <107514688+Lothander@users.noreply.github.com>
+Date:   Mon Jan 6 15:50:25 2025 +0100
+
+    Updated HomeView.vue dodane znaczniki na mapie (#3)
+    
+    Co-authored-by: PrzemekTypa <przemyslaw.typa@studenci.collegiumwitelona.pl>
+
+[33mcommit 88af49aa810cdb10470f1200d1fbc3a7f97517bc[m
+Merge: fd50df0 ee99923
+Author: Dominik Kamiński <107514688+Lothander@users.noreply.github.com>
+Date:   Mon Jan 6 15:46:20 2025 +0100
+
+    Merge pull request #2 from danielmosakowski/przemekBranch
+    
+    Updated HomeView.vue dodane znaczniki na mapie
+
+[33mcommit ee99923c0f8163b03e880c0d53c314ffee5aa2a9[m
+Author: PrzemekTypa <przemyslaw.typa@studenci.collegiumwitelona.pl>
+Date:   Mon Jan 6 12:51:26 2025 +0100
+
+    Updated HomeView.vue dodane znaczniki na mapie
+
+[33mcommit da6cc7e2c8659c286fdfa61e2555f724a7e0ee36[m
+Merge: 71759d1 fd50df0
+Author: danielmosakowski <daniel.mosakowski@studenci.collegiumwitelona.pl>
+Date:   Thu Dec 26 11:57:49 2024 +0100
+
+    .
+
+[33mcommit 71759d1050031c1055edc1df56c7538c66a00312[m
+Author: danielmosakowski <daniel.mosakowski@studenci.collegiumwitelona.pl>
+Date:   Thu Dec 26 11:44:33 2024 +0100
+
+    WIP: Zapisanie lokalnych zmian przed pull
+
+[33mcommit fd50df092c307e7dba8fdd550cb02ba9c0d64cd5[m
+Merge: dc37a74 6ee8e3e
+Author: danielmosakowski <129111523+danielmosakowski@users.noreply.github.com>
+Date:   Thu Dec 26 11:32:29 2024 +0100
+
+    Merge pull request #1 from danielmosakowski/przemekBranch
+    
+    Readme, HomeView i route porobione do log/rej
+
+[33mcommit 6ee8e3e467abcba7eccc04edb79b938bad23fbf6[m
+Author: PrzemekTypa <przemyslaw.typa@studenci.collegiumwitelona.pl>
+Date:   Wed Dec 18 21:35:42 2024 +0100
+
+    Dodano mape, ale enpointy do zrobienia
+
+[33mcommit 59cef639353ff069427ca1d659ab28b6671c37a8[m
+Author: PrzemekTypa <przemyslaw.typa@studenci.collegiumwitelona.pl>
+Date:   Fri Dec 13 13:31:00 2024 +0100
+
+    Readme, HomeView i route porobione do log/rej
+
+[33mcommit dc37a74f4351ba3e0cc34f1e201299d166f4d91b[m
+Author: danielmosakowski <daniel.mosakowski@studenci.collegiumwitelona.pl>
+Date:   Wed Dec 4 20:35:22 2024 +0100
+
+    Initial commit

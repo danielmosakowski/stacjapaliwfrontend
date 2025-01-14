@@ -1,11 +1,18 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import AboutView from '../views/AboutView.vue'
-import StudentView from '../views/Students/View.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import AboutView from '../views/AboutView.vue';
 import Register from "@/views/Auth/Register.vue";
 import Login from "@/views/Auth/Login.vue";
+<<<<<<< HEAD
 import Dashboard from "@/views/Dashboard.vue";
 
+=======
+import ListOfStations from "@/views/ListOfStations.vue";  // Komponent ListOfStations
+import ContactView from "@/views/Contact.vue";  // Import komponentu Kontakt
+import Dashboard from "@/views/Dashboard.vue";
+import Admin from "@/views/Admin.vue";
+import Search from "@/views/Search.vue";
+>>>>>>> dominikBranch
 import store from "@/store/index.js";
 
 const router = createRouter({
@@ -14,27 +21,27 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: HomeView,  // Strona główna
     },
     {
       path: '/about',
       name: 'about',
-      component: () => import('../views/AboutView.vue'),
+      component: AboutView,  // Strona "O nas"
     },
     {
-      path: '/students',
-      name: 'students',
-      component: StudentView,
+      path: '/search',
+      name: 'search',
+      component: Search,
     },
     {
       path: '/register',
       name: 'register',
-      component: Register,
+      component: Register,  // Strona rejestracji
     },
     {
       path: '/login',
       name: 'login',
-      component: Login,
+      component: Login,  // Strona logowania
     },
     {
       path: '/dashboard',
@@ -44,6 +51,7 @@ const router = createRouter({
         requiresAuth: true
       }
     },
+<<<<<<< HEAD
   ],
 
   linkActiveClass: 'active',
@@ -64,5 +72,43 @@ router.beforeEach((to, from, next)=>{
   }
 });
 
+=======
+    {
+      path: '/list-of-stations',  // Strona "Lista Stacji"
+      name: 'list-of-stations',
+      component: ListOfStations,  // Komponent wyświetlający listę stacji
+    },
+    {
+      path: '/contact',  // Strona Kontakt
+      name: 'contact',
+      component: ContactView,  // Komponent Kontakt
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: Admin,
+      meta: {
+        requiresAuth: true
+      }
+    }
+  ],
+>>>>>>> dominikBranch
 
-export default router
+linkActiveClass: 'active',
+
+});
+
+router.beforeEach((to, from, next)=>{
+  const isAuthenticated = store.getters.authStatus
+  if (to.meta.requiresAuth && !isAuthenticated){
+    next('/login')
+  }
+  else if ((to.name==='login' || to.name==='register') && isAuthenticated){
+    next('/dashboard')
+  }
+  else {
+    next()
+  }
+});
+
+export default router;

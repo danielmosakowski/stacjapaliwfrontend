@@ -1,5 +1,9 @@
 import axios from "axios";
+<<<<<<< HEAD
 //import config from "bootstrap/js/src/util/config.js";
+=======
+import config from "bootstrap/js/src/util/config.js";
+>>>>>>> dominikBranch
 
 axios.interceptors.request.use(
     config => {

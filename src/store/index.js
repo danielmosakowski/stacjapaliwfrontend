@@ -5,13 +5,24 @@ export default createStore({
 
     state:{
         token: localStorage.getItem('token')||"",
+<<<<<<< HEAD
         isAuthenticated: false
+=======
+        isAuthenticated: false,
+        isAdmin: false,  //admin
+>>>>>>> dominikBranch
     },
 
     mutations:{
         UpdateAuthenticationStatus(state, status){
             state.isAuthenticated = status;
         },
+<<<<<<< HEAD
+=======
+        UpdateAdminStatus(state, status) {
+            state.isAdmin = status;
+        },  //admin
+>>>>>>> dominikBranch
 
         UpdateAuthStatus(state,status){
             state.isAuthenticated=status;
@@ -22,8 +33,14 @@ export default createStore({
             localStorage.setItem('token',token)
         },
         resetAuth(state){
+<<<<<<< HEAD
             state.token = null
             state.isAuthenticated=false
+=======
+            state.token = null;
+            state.isAuthenticated=false;
+            state.isAdmin=false;  //admin
+>>>>>>> dominikBranch
         }
 
     },
@@ -33,6 +50,7 @@ export default createStore({
         checkUserAuthenticationStatus({commit}){
             axios.get('http://localhost:8000/api/authenticated')
                 .then(response =>{
+<<<<<<< HEAD
                     console.log(response)
                     commit('UpdateAuthenticationStatus', response.data.status)
                 })
@@ -40,6 +58,18 @@ export default createStore({
                     console.log(error)
             })
         },
+=======
+                    console.log('Odpowiedź z API:', response.data);
+                    commit('UpdateAuthenticationStatus', response.data.status);
+                    commit('UpdateAdminStatus', response.data.is_admin); //admin
+
+                })
+                .catch(error =>{
+                    console.log(error)
+                })
+        },
+
+>>>>>>> dominikBranch
         setAuthStatus({commit}, status){
             commit('UpdateAuthStatus', status);
 
@@ -57,8 +87,13 @@ export default createStore({
     },
 
     getters:{
+<<<<<<< HEAD
         authStatus: state => state.isAuthenticated   //2 metoda
 
+=======
+        authStatus: state => state.isAuthenticated,   //2 metoda
+        adminStatus: state => state.isAdmin
+>>>>>>> dominikBranch
     },
 
 
