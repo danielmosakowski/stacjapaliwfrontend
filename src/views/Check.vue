@@ -99,7 +99,6 @@ export default {
         this.addStationsToMap();
       } catch (error) {
         console.error("Błąd:", error);
-        alert("Nie udało się pobrać danych.");
       }
     },
 
