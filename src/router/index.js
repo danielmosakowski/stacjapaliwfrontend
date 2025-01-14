@@ -1,11 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import AboutView from '../views/AboutView.vue';
-import StudentView from '../views/Students/View.vue';
 import Register from "@/views/Auth/Register.vue";
 import Login from "@/views/Auth/Login.vue";
 import ListOfStations from "@/views/ListOfStations.vue";  // Komponent ListOfStations
 import ContactView from "@/views/Contact.vue";  // Import komponentu Kontakt
+import Dashboard from "@/views/Dashboard.vue";
+import Admin from "@/views/Admin.vue";
+import Search from "@/views/Search.vue";
+import store from "@/store/index.js";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,9 +24,9 @@ const router = createRouter({
       component: AboutView,  // Strona "O nas"
     },
     {
-      path: '/students',
-      name: 'students',
-      component: StudentView,  // Strona studentów
+      path: '/search',
+      name: 'search',
+      component: Search,
     },
     {
       path: '/register',
@@ -36,6 +39,14 @@ const router = createRouter({
       component: Login,  // Strona logowania
     },
     {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: Dashboard,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: '/list-of-stations',  // Strona "Lista Stacji"
       name: 'list-of-stations',
       component: ListOfStations,  // Komponent wyświetlający listę stacji
@@ -45,7 +56,31 @@ const router = createRouter({
       name: 'contact',
       component: ContactView,  // Komponent Kontakt
     },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: Admin,
+      meta: {
+        requiresAuth: true
+      }
+    }
   ],
+
+linkActiveClass: 'active',
+
+});
+
+router.beforeEach((to, from, next)=>{
+  const isAuthenticated = store.getters.authStatus
+  if (to.meta.requiresAuth && !isAuthenticated){
+    next('/login')
+  }
+  else if ((to.name==='login' || to.name==='register') && isAuthenticated){
+    next('/dashboard')
+  }
+  else {
+    next()
+  }
 });
 
 export default router;

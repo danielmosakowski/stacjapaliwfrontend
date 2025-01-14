@@ -18,16 +18,28 @@
               <RouterLink class="nav-link" to="/list-of-stations" active-class="active-link"><i class="fas fa-building"></i>Lista Stacji</RouterLink>
             </li>
             <li class="nav-item">
-              <RouterLink class="nav-link" to="/login" active-class="active-link"><i class="fas fa-sign-in-alt"></i>Logowanie</RouterLink>
+              <RouterLink class="nav-link" to="/search" active-class="active-link"><i class="fas fa-search"></i>Wyszukiwarka</RouterLink>
             </li>
             <li class="nav-item">
-              <RouterLink class="nav-link" to="/register" active-class="active-link"><i class="fas fa-user-plus"></i>Rejestracja</RouterLink>
+              <RouterLink class="nav-link" v-if="!isAuthenticated" to="/login" active-class="active-link"><i class="fas fa-sign-in-alt"></i>Logowanie</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" v-if="!isAuthenticated" to="/register" active-class="active-link"><i class="fas fa-user-plus"></i>Rejestracja</RouterLink>
             </li>
             <li class="nav-item">
               <RouterLink class="nav-link" to="/contact" active-class="active-link"><i class="fas fa-phone"></i>Kontakt</RouterLink>
             </li>
             <li class="nav-item">
               <RouterLink class="nav-link" to="/about" active-class="active-link"><i class="fas fa-info-circle"></i>O nas</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" v-if="isAuthenticated" to="/dashboard" active-class="active-link"><i class="fas fa-columns"></i>Tablica</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" v-if="isAuthenticated && isAdmin" to="/admin" active-class="active-link"><i class="fas fa-cogs"></i>Admin</RouterLink>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" v-if="isAuthenticated" @click="logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
             </li>
           </ul>
         </div>
@@ -56,3 +68,36 @@
   </footer>
 
 </template>
+
+<script>
+import { mapGetters } from 'vuex'
+import axios from './axios.js'
+
+export default {
+  mounted() {
+    this.$store.dispatch('checkUserAuthenticationStatus')
+  },
+
+  computed: {
+    isAuthenticated() {
+      return this.$store.state.isAuthenticated
+    },
+    isAdmin() {
+      return this.$store.state.isAdmin
+    }
+  },
+
+  methods: {
+    logout() {
+      axios.post('http://localhost:8000/api/logout')
+          .then(response => {
+            this.$store.dispatch('logout')
+            this.$router.push({name: 'login'})
+          })
+          .catch(error => {
+            console.log(error)
+          })
+    }
+  }
+}
+</script>

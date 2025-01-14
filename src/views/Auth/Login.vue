@@ -39,42 +39,72 @@
 
 <script>
 import axios from "axios";
-import { ref } from 'vue';
 
 export default {
-  setup() {
-    const email = ref('');
-    const password = ref('');
-    const errors = ref([]);
-
-    const login = async () => {
-      errors.value = [];
-      try {
-        await axios.get('http://localhost:8000/sanctum/csrf-cookie');
-        const response = await axios.post('http://localhost:8000/api/login', {
-          email: email.value,
-          password: password.value
-        });
-
-        const token = response.data.token;
-        localStorage.setItem('authToken', token);
-        alert('Zalogowano pomyślnie!');
-
-      } catch (error) {
-        if (error.response && error.response.status === 422) {
-          errors.value = Object.values(error.response.data.errors).flat();
-        } else {
-          errors.value = ['Wystąpił błąd podczas logowania.'];
-        }
-      }
-    };
-
+  data(){
     return {
-      email,
-      password,
-      errors,
-      login
-    };
+      email: '',
+      password: '',
+      is_admin: '',
+      errors: [],
+    }
+  },
+  methods: {
+    login() {
+      //alert('hello')
+
+      //this.errors = '';
+      this.clearMessage();
+
+      axios.get('/sanctum/csrf-cookie').then(response => {
+
+        axios.post('http://localhost:8000/api/login',{
+          email: this.email,
+          password: this.password,
+          is_admin: this.is_admin,
+        }).then(response => {
+          //console.log(response);
+          //console.log(response.data)
+
+          //dispatch authentication
+          const status=true;
+          const token=response.data.token
+          console.log(response.data.token)
+
+          this.$store.dispatch('setAuthToken',token)
+          //this.$store.dispatch('checkUserAuthenticationStatus', status)
+          this.$store.dispatch('setAuthStatus', status)
+
+
+
+          this.$router.push({
+            name: 'dashboard'
+          })
+
+          if (response.status == 201){
+            //this.successMsg = response.data.message;
+            console.log(response.data.message)
+          }
+
+
+        }).catch(error =>{
+
+          if(error.response.status == 422){
+            this.errors = Object.values(error.response.data.errors).flat()
+          } else {
+            this.errors=["Something went wrong"]
+          }
+
+        })
+
+      });
+    },
+
+    clearMessage(){
+      this.errors = '';
+      this.successMsg='';
+    }
+
   }
 }
 </script>
