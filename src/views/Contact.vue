@@ -1,31 +1,33 @@
 <template>
   <main class="contact-us">
     <div class="container">
-      <h1>Kontakt</h1>
-      <!-- Informacje kontaktowe -->
-      <p class="description">
-        Jeśli masz jakiekolwiek pytania, skontaktuj się z nami! Chętnie pomożemy i odpowiemy na Twoje wątpliwości.
-      </p>
+      <!-- Kontener dla opisów kontaktowych z półprzezroczystym tłem -->
+      <div class="contact-container">
+        <h1>Kontakt</h1> <!-- Przeniesiony do kontenera -->
+        <!-- Informacje kontaktowe -->
+        <p class="description">
+          Jeśli masz jakiekolwiek pytania, skontaktuj się z nami!<br> Chętnie pomożemy i odpowiemy na Twoje wątpliwości.
+        </p>
 
-      <!-- Link do strony Collegium Witelona -->
-      <div class="contact-info">
-        <div class="contact-item">
-          <h3>Odwiedź naszą uczelnię</h3>
-          <a class="external-link" href="https://www.collegiumwitelona.pl/" target="_blank" rel="noopener noreferrer">
-            Collegium Witelona
-          </a>
-        </div>
-        <div class="contact-item">
-          <h3>Adres</h3>
-          <p>Collegium Witelona, ul. Sikorskiego 21, 59-400 Lubin</p>
-        </div>
-        <div class="contact-item">
-          <h3>Email</h3>
-          <p>kontakt@naszafirma.com</p>
-        </div>
-        <div class="contact-item">
-          <h3>Telefon</h3>
-          <p>+48 123 456 789</p>
+        <div class="contact-info">
+          <div class="contact-item">
+            <h3>Odwiedź naszą uczelnię</h3>
+            <a class="external-link" href="https://www.collegiumwitelona.pl/" target="_blank" rel="noopener noreferrer">
+              Collegium Witelona
+            </a>
+          </div>
+          <div class="contact-item">
+            <h3>Adres</h3>
+            <p>Collegium Witelona, ul. Sikorskiego 21, 59-400 Lubin</p>
+          </div>
+          <div class="contact-item">
+            <h3>Email</h3>
+            <p>kontakt@naszafirma.com</p>
+          </div>
+          <div class="contact-item">
+            <h3>Telefon</h3>
+            <p>+48 123 456 789</p>
+          </div>
         </div>
       </div>
 
@@ -53,6 +55,8 @@
   </main>
 </template>
 
+
+
 <script setup lang="ts">
 import { ref } from 'vue';
 
@@ -71,7 +75,21 @@ const submitForm = () => {
 <style scoped>
 .contact-us {
   padding: 20px;
-  background-color: #f4f4f4;
+  background-image: url('@/assets/tło4.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.contact-container {
+  background-color: rgba(0, 0, 0, 0.5); /* Ciemne tło, półprzezroczyste */
+  padding: 40px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+  width: 100%;
+  max-width: 800px; /* Zmieniona szerokość na tę samą co formularz */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .container {
@@ -81,14 +99,14 @@ const submitForm = () => {
 
 h1 {
   text-align: center;
-  color: #333;
+  color: #fff; /* Zmienione na biały */
 }
 
 .description {
   font-size: 18px;
   text-align: center;
   margin: 20px 0;
-  color: #666;
+  color: #fff; /* Zmienione na biały */
 }
 
 .external-link {
@@ -98,7 +116,7 @@ h1 {
 }
 
 .external-link a {
-  color: #007bff;
+  color: #007bff; /* Zmienione na niebieski */
   text-decoration: none;
 }
 
@@ -109,6 +127,7 @@ h1 {
 .contact-info {
   margin-top: 40px;
   text-align: center;
+  color: #fff;
 }
 
 .contact-item {
@@ -116,7 +135,7 @@ h1 {
 }
 
 .contact-item h3 {
-  color: #333;
+  color: #fff; /* Zmienione na biały */
 }
 
 .divider {
@@ -138,7 +157,7 @@ h1 {
 }
 
 .form-section h2 {
-  margin-bottom: 30px; /* Zwiększenie odstępu pod nagłówkiem */
+  margin-bottom: 30px;
 }
 
 .form-group {
@@ -148,7 +167,7 @@ h1 {
 label {
   display: block;
   font-size: 16px;
-  margin-bottom: 10px; /* Większy odstęp od pola formularza */
+  margin-bottom: 10px;
 }
 
 input, textarea {
@@ -158,8 +177,8 @@ input, textarea {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
-  font-size: 16px; /* Ujednolicenie czcionki */
-  font-family: Arial, sans-serif; /* Czcionka ustawiona dla wszystkich pól */
+  font-size: 16px;
+  font-family: Arial, sans-serif;
 }
 
 textarea {
@@ -180,5 +199,6 @@ button {
 button:hover {
   background-color: #333;
 }
+
 
 </style>

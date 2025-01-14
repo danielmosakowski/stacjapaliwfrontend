@@ -29,8 +29,7 @@
             <img src="@/assets/Daniel.jpg" alt="Członek Zespołu" class="team-photo" />
             <h3>Daniel Mosakowski</h3>
             <p><b>Frontend / Backend - Lead Developer</b></p><br>
-            <p>Początkujący programista, który wciąż szuka swojego kierunku na ścieżce zawodowej, aktualnie student 3 roku w Collegium Witelona
-              na kierunku informatycznym. W wolnym czasie pasjonat szachów, książek o tematyce samorozwoju i siłowni.</p>
+            <p>Student informatyki interesujący się programowaniem aplikacji mobilnych. W wolnym czasie lubi biegać i jeździć na rowerze.</p>
           </div>
           <div class="team-member">
             <img src="@/assets/Dominik.jpg" alt="Członek Zespołu" class="team-photo" />

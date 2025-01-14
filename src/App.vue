@@ -8,7 +8,8 @@
         <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <i class="fas fa-bars text-white"></i>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <!-- Wyskakujące menu -->
+        <div class="navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <RouterLink class="nav-link" to="/" active-class="active-link"><i class="fas fa-home"></i>Strona Główna</RouterLink>
