@@ -5,6 +5,7 @@ import StudentView from '../views/Students/View.vue'
 import Register from "@/views/Auth/Register.vue";
 import Login from "@/views/Auth/Login.vue";
 import Dashboard from "@/views/Dashboard.vue";
+import Admin from "@/views/Admin.vue";
 
 import store from "@/store/index.js";
 
@@ -40,6 +41,14 @@ const router = createRouter({
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: Admin,
       meta: {
         requiresAuth: true
       }

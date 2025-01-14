@@ -20,11 +20,11 @@ import HelloWorld from './components/HelloWorld.vue'
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
               <li class="nav-item">
-<<<<<<< HEAD
+
                 <RouterLink class="nav-link" to="/">Home</RouterLink>
-=======
+
                 <RouterLink class="nav-link active" to="/">Strona Główna</RouterLink>
->>>>>>> fd50df092c307e7dba8fdd550cb02ba9c0d64cd5
+
               </li>
               <li class="nav-item">
                 <RouterLink class="nav-link" to="/about">Lista Stacji</RouterLink>
@@ -37,9 +37,11 @@ import HelloWorld from './components/HelloWorld.vue'
               </li>
 
 
+
             </ul>
             <form class="d-flex" role="search">
               <router-link v-if="isAuthenticated" to="/dashboard" class="btn btn-outline-success">Dashboard</router-link>
+              <router-link v-if="isAuthenticated && isAdmin" to="/admin" class="btn btn-outline-success">Admin</router-link>
               <a v-if="isAuthenticated" @click="logout" class="btn btn-outline-danger">Logout</a>&nbsp;
               <router-link v-if="!isAuthenticated" to="/login" class="btn btn-outline-primary">Login</router-link>&nbsp;
               <router-link v-if="!isAuthenticated" to="/register" class="btn btn-outline-primary">Register</router-link>
@@ -79,6 +81,9 @@ export default {
     isAuthenticated(){
       return this.$store.state.isAuthenticated   // 1 metoda
       //return this.$store.getters.authStatus // 2 metoda
+    },
+    isAdmin(){
+      return this.$store.state.isAdmin;  // admin
     },
     authToken(){
       return this.$store.state.token

@@ -44,6 +44,7 @@ export default {
     return {
       email: '',
       password: '',
+      is_admin: '',
       errors: [],
     }
   },
@@ -59,6 +60,7 @@ export default {
       axios.post('http://localhost:8000/api/login',{
         email: this.email,
         password: this.password,
+        is_admin: this.is_admin,
       }).then(response => {
         //console.log(response);
         //console.log(response.data)
