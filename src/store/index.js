@@ -1,74 +1,62 @@
-import { createStore} from 'vuex';
+import { createStore } from 'vuex';
 import axios from "axios";
 
 export default createStore({
 
-    state:{
-        token: localStorage.getItem('token')||"",
+    state: {
+        token: localStorage.getItem('token') || "",
         isAuthenticated: false,
-        isAdmin: false,  //admin
+        isAdmin: false, // Status admina
     },
 
-    mutations:{
-        UpdateAuthenticationStatus(state, status){
+    mutations: {
+        UpdateAuthenticationStatus(state, status) {
             state.isAuthenticated = status;
         },
         UpdateAdminStatus(state, status) {
-            state.isAdmin = status;
-        },  //admin
-
-        UpdateAuthStatus(state,status){
-            state.isAuthenticated=status;
+            state.isAdmin = status; // Aktualizacja statusu admina
         },
-
-        UpdateToken(state,token){
-            state.token=token
-            localStorage.setItem('token',token)
+        UpdateToken(state, token) {
+            state.token = token;
+            localStorage.setItem('token', token);
         },
-        resetAuth(state){
+        resetAuth(state) {
             state.token = null;
-            state.isAuthenticated=false;
-            state.isAdmin=false;  //admin
+            state.isAuthenticated = false;
+            state.isAdmin = false; // Resetowanie statusu admina
         }
-
     },
 
-    actions:{
-        //check user state
-        checkUserAuthenticationStatus({commit}){
+    actions: {
+        // Sprawdzenie statusu uwierzytelnienia użytkownika
+        checkUserAuthenticationStatus({ commit }) {
             axios.get('http://localhost:8000/api/authenticated')
-                .then(response =>{
+                .then(response => {
                     console.log('Odpowiedź z API:', response.data);
                     commit('UpdateAuthenticationStatus', response.data.status);
-                    commit('UpdateAdminStatus', response.data.is_admin); //admin
-
+                    commit('UpdateAdminStatus', response.data.is_admin); // Aktualizacja statusu admina
                 })
-                .catch(error =>{
-                    console.log(error)
-            })
+                .catch(error => {
+                    console.log(error);
+                });
         },
 
-        setAuthStatus({commit}, status){
-            commit('UpdateAuthStatus', status);
-
-            console.log('status is' + status)
-
+        setAuthStatus({ commit }, status) {
+            commit('UpdateAuthenticationStatus', status);
+            console.log('Status uwierzytelnienia: ' + status);
         },
-        setAuthToken({commit},token){
-            commit('UpdateToken', token)
+        setAuthToken({ commit }, token) {
+            commit('UpdateToken', token);
         },
-        logout({commit}){
-            commit('resetAuth')
-            localStorage.removeItem('token')
-            delete axios.defaults.headers.common['Authorization']
+        logout({ commit }) {
+            commit('resetAuth');
+            localStorage.removeItem('token');
+            delete axios.defaults.headers.common['Authorization'];
         }
     },
 
-    getters:{
-        authStatus: state => state.isAuthenticated,   //2 metoda
-        adminStatus: state => state.isAdmin
+    getters: {
+        authStatus: state => state.isAuthenticated, // Status uwierzytelnienia
+        adminStatus: state => state.isAdmin // Status admina
     },
-
-
-
 });

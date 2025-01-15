@@ -2,91 +2,106 @@
   <div>
     <!-- Navbar -->
     <header>
-      <div class="wrapper">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div class="container">
-            <RouterLink class="navbar-brand" to="/">wacha.pl</RouterLink>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                  <RouterLink class="nav-link" to="/">Home</RouterLink>
-                </li>
-                <li class="nav-item">
-                  <RouterLink class="nav-link" to="/check">Wyszukiwarka</RouterLink>
-                </li> 
-              </ul>
-
-              <!-- Login/Logout Section -->
-              <form class="d-flex">
-                <router-link v-if="isAuthenticated" to="/dashboard" class="btn btn-outline-success me-2">Dashboard</router-link>
-                <router-link v-if="isAuthenticated && isAdmin" to="/admin" class="btn btn-outline-warning me-2">Admin</router-link>
-                <a v-if="isAuthenticated" @click="logout" class="btn btn-outline-danger me-2">Logout</a>
-                <router-link v-if="!isAuthenticated" to="/login" class="btn btn-outline-primary me-2">Login</router-link>
-                <router-link v-if="!isAuthenticated" to="/register" class="btn btn-outline-primary">Register</router-link>
-              </form>
-            </div>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <RouterLink class="navbar-brand" to="/">wacha.pl</RouterLink>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <RouterLink class="nav-link" to="/">Strona Główna</RouterLink>
+              </li>
+              <li class="nav-item">
+                <RouterLink class="nav-link" to="/list-of-stations">Lista Stacji</RouterLink>
+              </li>
+              <li class="nav-item">
+                <RouterLink class="nav-link" to="/search">Wyszukiwarka</RouterLink>
+              </li>
+              <li class="nav-item" v-if="!isAuthenticated">
+                <RouterLink class="nav-link" to="/login">Logowanie</RouterLink>
+              </li>
+              <li class="nav-item" v-if="!isAuthenticated">
+                <RouterLink class="nav-link" to="/register">Rejestracja</RouterLink>
+              </li>
+              <li class="nav-item" v-if="isAuthenticated">
+                <RouterLink class="nav-link" to="/dashboard">Tablica</RouterLink>
+              </li>
+              <li class="nav-item" v-if="isAuthenticated && isAdmin">
+                <RouterLink class="nav-link" to="/admin">Admin</RouterLink>
+              </li>
+              <li class="nav-item" v-if="isAuthenticated">
+                <a class="nav-link" @click="logout">Logout</a>
+              </li>
+            </ul>
           </div>
-        </nav>
-      </div>
+        </div>
+      </nav>
     </header>
 
     <!-- Content View -->
     <RouterView />
 
     <!-- Footer -->
-    <footer class="bg-dark text-white mt-5 py-4">
-      <div class="container text-center">
-        <p>&copy; 2025 wacha.pl. All rights reserved.</p>
-        <p>
-          <RouterLink class="text-white" to="/privacy-policy">Privacy Policy</RouterLink> |
-          <RouterLink class="text-white" to="/terms-of-service">Terms of Service</RouterLink>
-        </p>
+    <footer class="footer text-center py-3">
+      <div class="footer-left">
+        <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      </div>
+      <div class="footer-center">
+        <img src="@/assets/wacha.png" alt="Wacha Logo" />
+        <p>Wacha &copy;2025 No Money, No Gas</p>
       </div>
     </footer>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import axios from './axios.js'
+import axios from "@/axios.js";
 
 export default {
   mounted() {
-    this.$store.dispatch('checkUserAuthenticationStatus')
+    this.$store.dispatch("checkUserAuthenticationStatus");
   },
-
   computed: {
     isAuthenticated() {
-      return this.$store.state.isAuthenticated
+      return this.$store.state.isAuthenticated;
     },
     isAdmin() {
-      return this.$store.state.isAdmin
-    }
+      return this.$store.state.isAdmin;
+    },
   },
-
   methods: {
     logout() {
-      axios.post('http://localhost:8000/api/logout')
-          .then(response => {
-            this.$store.dispatch('logout')
-            this.$router.push({ name: 'login' })
-          })
-          .catch(error => {
-            console.log(error)
-          })
-    }
-  }
-}
+      axios
+        .post("http://localhost:8000/api/logout")
+        .then(() => {
+          this.$store.dispatch("logout");
+          this.$router.push({ name: "login" });
+        })
+        .catch((error) => {
+          console.error("Logout failed:", error);
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>
-/* Global Styles */
+/* General Styles */
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   background-color: #f8f9fa;
 }
 
@@ -106,6 +121,7 @@ body {
 
 .navbar-nav .nav-link:hover {
   background-color: #495057;
+  border-radius: 5px;
 }
 
 /* Footer Styles */
@@ -114,15 +130,21 @@ footer {
   color: #fff;
 }
 
+footer .footer-left a {
+  margin: 0 10px;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+footer .footer-left a:hover {
+  color: #ddd;
+}
+
+footer .footer-center {
+  margin-top: 15px;
+}
+
 footer p {
-  margin-bottom: 0;
-}
-
-footer a {
-  text-decoration: none;
-}
-
-footer a:hover {
-  text-decoration: underline;
+  margin: 5px 0;
 }
 </style>

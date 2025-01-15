@@ -1,9 +1,9 @@
 <template>
   <div class="home-view">
-    <h1>Dodaj cenę paliwa</h1>
-    <form @submit.prevent="submitForm">
+    <h1 class="main-header">Dodaj cenę paliwa</h1>
+    <form @submit.prevent="submitForm" class="form-section">
       <!-- Rodzaj paliwa -->
-      <div>
+      <div class="form-group">
         <label for="fuelType">Rodzaj paliwa:</label>
         <select v-model="formData.fuelType" id="fuelType" required>
           <option value="">Wybierz rodzaj paliwa</option>
@@ -14,36 +14,36 @@
       </div>
 
       <!-- Cena -->
-      <div>
+      <div class="form-group">
         <label for="price">Cena (zł):</label>
         <input
-          type="number"
-          step="0.01"
-          v-model="formData.price"
-          id="price"
-          placeholder="np. 6.50"
-          required
-          @input="validatePrice"
+            type="number"
+            step="0.01"
+            v-model="formData.price"
+            id="price"
+            placeholder="np. 6.50"
+            required
+            @input="validatePrice"
         />
         <span v-if="priceError" class="error">Cena nie może być ujemna.</span>
       </div>
 
       <!-- Zdjęcie potwierdzające cenę -->
-      <div>
+      <div class="form-group">
         <label for="photo">Zdjęcie potwierdzające cenę:</label>
         <input type="file" @change="handleFileUpload" id="photo" required />
       </div>
 
       <!-- Lokacja stacji -->
-      <div>
+      <div class="form-group">
         <label for="location">Lokacja stacji:</label>
         <input
-          type="text"
-          v-model="formData.location"
-          id="location"
-          placeholder="Wybierz stację z mapy"
-          readonly
-          required
+            type="text"
+            v-model="formData.location"
+            id="location"
+            placeholder="Wybierz stację z mapy"
+            readonly
+            required
         />
       </div>
 
@@ -53,7 +53,7 @@
 
     <!-- Sekcja mapy -->
     <div>
-      <h2>Mapa stacji:</h2>
+      <h2 class="main-header">Mapa stacji</h2>
       <div id="map"></div>
     </div>
   </div>
@@ -140,7 +140,7 @@ export default {
       // Dodanie warstwy kafelków
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(this.map);
 
       // Dodanie markerów dla stacji paliw
@@ -166,49 +166,74 @@ export default {
 
 <style scoped>
 .home-view {
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #f4f4f4;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-form div {
-  margin-bottom: 15px;
+
+.form-section {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
+
+.form-group {
+  margin-bottom: 20px;
+}
+
 label {
   display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 10px;
 }
+
 input, select, button {
   width: 100%;
   padding: 10px;
-  margin-top: 5px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box;
 }
+
 button {
-  background-color: #007bff;
-  color: #fff;
+  background-color: #000;
+  color: white;
+  padding: 10px 20px;
   border: none;
   cursor: pointer;
 }
+
 button:hover {
-  background-color: #0056b3;
+  background-color: #333;
 }
+
 button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
+
 .error {
   color: red;
   font-size: 14px;
 }
+
 #map {
   width: 100%;
   height: 400px;
+  margin-top: 20px;
+}
+
+/* Stylizacja nagłówków */
+.main-header {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
   margin-top: 20px;
 }
 </style>
