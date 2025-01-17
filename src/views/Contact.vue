@@ -18,11 +18,11 @@
           </div>
           <div class="contact-item">
             <h3>Adres</h3>
-            <p>Collegium Witelona, ul. Sikorskiego 21, 59-400 Lubin</p>
+            <p>Collegium Witelona, ul. Sejmowa 5A, 59-220 Legnica</p>
           </div>
           <div class="contact-item">
             <h3>Email</h3>
-            <p>kontakt@naszafirma.com</p>
+            <p>kontakt@nwacha.pl</p>
           </div>
           <div class="contact-item">
             <h3>Telefon</h3>
