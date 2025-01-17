@@ -22,7 +22,7 @@
           </div>
           <div class="contact-item">
             <h3>Email</h3>
-            <p>kontakt@nwacha.pl</p>
+            <p>kontakt@wacha.pl</p>
           </div>
           <div class="contact-item">
             <h3>Telefon</h3>
