@@ -1,239 +1,157 @@
 <template>
-  <div class="home-view">
-    <h1 class="main-header">Dodaj cenę paliwa</h1>
-    <form @submit.prevent="submitForm" class="form-section">
-      <!-- Rodzaj paliwa -->
-      <div class="form-group">
-        <label for="fuelType">Rodzaj paliwa:</label>
-        <select v-model="formData.fuelType" id="fuelType" required>
-          <option value="">Wybierz rodzaj paliwa</option>
-          <option value="petrol">Benzyna</option>
-          <option value="diesel">Diesel</option>
-          <option value="lpg">LPG</option>
-        </select>
+  <div>
+    <!-- Sekcja tła z dużym zdjęciem -->
+    <div class="hero-section">
+      <div class="hero-text">
+        <h1>Oszczędzajmy</h1>
+        <h1>więcej.</h1>
+        <h1>Razem!</h1>
+        <!-- Przycisk "Nasza misja" z czarnym tłem i białym napisem -->
+        <router-link to="/about#bottom" class="btn btn-black">Nasza misja</router-link>
       </div>
+    </div>
 
-      <!-- Cena -->
-      <div class="form-group">
-        <label for="price">Cena (zł):</label>
-        <input
-            type="number"
-            step="0.01"
-            v-model="formData.price"
-            id="price"
-            placeholder="np. 6.50"
-            required
-            @input="validatePrice"
-        />
-        <span v-if="priceError" class="error">Cena nie może być ujemna.</span>
+    <!-- Sekcja Aktualności -->
+    <div class="news-section">
+      <h2>Aktualności</h2>
+
+      <!-- Kontenery z tytułami i przyciskami -->
+      <div class="news-container">
+        <div v-for="(item, index) in newsItems" :key="index" class="news-card">
+          <p class="date">{{ item.date }}</p>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.description }}</p>
+          <a :href="item.url" target="_blank" class="btn btn-secondary">Więcej</a>
+        </div>
       </div>
-
-      <!-- Zdjęcie potwierdzające cenę -->
-      <div class="form-group">
-        <label for="photo">Zdjęcie potwierdzające cenę:</label>
-        <input type="file" @change="handleFileUpload" id="photo" required />
-      </div>
-
-      <!-- Lokacja stacji -->
-      <div class="form-group">
-        <label for="location">Lokacja stacji:</label>
-        <input
-            type="text"
-            v-model="formData.location"
-            id="location"
-            placeholder="Wybierz stację z mapy"
-            readonly
-            required
-        />
-      </div>
-
-      <!-- Przycisk wysyłania -->
-      <button type="submit" :disabled="!formData.location || priceError">Wyślij</button>
-    </form>
-
-    <!-- Sekcja mapy -->
-    <div>
-      <h2 class="main-header">Mapa stacji</h2>
-      <div id="map"></div>
     </div>
   </div>
 </template>
 
 <script>
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
-
 export default {
   data() {
     return {
-      formData: {
-        fuelType: '',
-        price: '',
-        photo: null,
-        location: '', // Format: "latitude,longitude"
-      },
-      priceError: false,
-      map: null,
-      stations: [
-        { name: "Orlen", lat: 51.2094, lng: 16.1309, address: "Chojnowska 154, Legnica" },
-        { name: "Shell", lat: 51.1917, lng: 16.1276, address: "Złotoryjska 172, Legnica" },
-        { name: "Orlen", lat: 51.1777, lng: 16.1581, address: "Jaworzyńska 238, Legnica" },
-        { name: "MOL", lat: 51.1784, lng: 16.1567, address: "Nowodworska 30A, Legnica" },
-        { name: "Auchan", lat: 51.1841, lng: 16.1685, address: "Roberta Schumana 11, Legnica" },
-        { name: "Circle K", lat: 51.2049, lng: 16.1581, address: "Gwarna Muzealna, Legnica" },
-        { name: "Orlen", lat: 51.2141, lng: 16.1631, address: "Władysława Łokietka 9, Legnica" },
-        { name: "AMIC", lat: 51.2121, lng: 16.1672, address: "Pocztowa 2, Legnica" },
-        { name: "Orlen", lat: 51.2069, lng: 16.1816, address: "Gwiezdna 10, Legnica" },
-        { name: "BP", lat: 51.2094, lng: 16.1861, address: "Wrocławska 151, Legnica" },
-        { name: "Shell", lat: 51.2043, lng: 16.1917, address: "aleja Piłsudskiego 11, Legnica" },
-        { name: "Orlen", lat: 51.2108, lng: 16.2014, address: "Spokojna 59, Legnica" },
-        { name: "Merkury", lat: 51.2175, lng: 16.1581, address: "Słubicka 4a, Legnica" },
-        { name: "LOTOS", lat: 51.2276, lng: 16.1642, address: "Poznańska 44, Legnica" },
-      ],
-    };
-  },
-  methods: {
-    handleFileUpload(event) {
-      this.formData.photo = event.target.files[0];
-    },
-    validatePrice() {
-      this.priceError = this.formData.price < 0;
-    },
-    async submitForm() {
-      if (this.priceError) return;
-
-      const formData = new FormData();
-      formData.append('fuelType', this.formData.fuelType);
-      formData.append('price', this.formData.price);
-      formData.append('photo', this.formData.photo);
-      formData.append('location', this.formData.location); // Przechowuje współrzędne
-
-      try {
-        const response = await fetch('https://your-backend-api.com/api/fuel-prices', {
-          method: 'POST',
-          body: formData,
-        });
-
-        if (response.ok) {
-          alert('Formularz został wysłany pomyślnie!');
-          this.resetForm();
-        } else {
-          alert('Wystąpił błąd podczas wysyłania formularza.');
+      newsItems: [
+        {
+          title: 'Strategia Orlen 2035',
+          description: 'Zapewniamy bezpieczne dostawy energii, wspierając rozwój gospodarek krajów Europy Środkowej. Współtworzymy zintegrowany system energetyczny...',
+          url: 'https://www.orlen.pl/pl/o-firmie/strategia',
+          date: '2 stycznia 2025'
+        },
+        {
+          title: 'Sporty motorowe',
+          description: 'Dowiedz się więcej o naszym zaangażowaniu w sporty motorowe i o tym, jak nasza współpraca z innymi zespołami pomaga nam opracowywać paliwa i środki smarne dla kierowców na całym świecie...',
+          url: 'https://www.shell.pl/klienci/paliwa-oleje-i-plyny-do-chlodnic/sporty-motorowe.html',
+          date: '6 stycznia 2025'
+        },
+        {
+          title: 'Wild Bean Cafe',
+          description: 'Do kolekcji Alpejskich hot dogów stworzonych przez samego Roberta Makłowicza dochodzi smakowita wege nowość! Zdajemy sobie sprawę z tego, że nasi Klienci są często mocno zapracowani i mają mało czasu. Oferujemy więc...',
+          url: 'https://www.bp.com/pl_pl/poland/home/produkty_uslugi/wild_bean_cafe.html',
+          date: '12 stycznia 2025'
+        },
+        {
+          title: 'Wypożyczalnia przyczep',
+          description: 'Potrzebujesz bezpiecznie załadować i przewieźć potrzebne rzeczy w dowolne miejsce? Skorzystaj z atrakcyjnej oferty naszej wypożyczalni przyczep! U nas zawsze możesz szybko, tanio i bez...',
+          url: 'https://amicenergy.pl/pl/produkty-i-uslugi/wypozyczalnia-przyczep',
+          date: '17 stycznia 2025'
         }
-      } catch (error) {
-        console.error('Błąd:', error);
-        alert('Nie udało się połączyć z serwerem.');
-      }
-    },
-    resetForm() {
-      this.formData = {
-        fuelType: '',
-        price: '',
-        photo: null,
-        location: '',
-      };
-    },
-    initMap() {
-      // Inicjalizacja mapy
-      this.map = L.map("map").setView([51.2070, 16.1551], 13); // Legnica
-
-      // Dodanie warstwy kafelków
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(this.map);
-
-      // Dodanie markerów dla stacji paliw
-      this.stations.forEach((station) => {
-        const marker = L.marker([station.lat, station.lng]).addTo(this.map);
-        marker.bindPopup(`
-          <strong>${station.name}</strong><br>
-          ${station.address || "Adres nieznany"}
-        `);
-
-        // Możliwość wybrania stacji przez kliknięcie na marker
-        marker.on("click", () => {
-          this.formData.location = `${station.lat},${station.lng}`; // Współrzędne stacji
-        });
-      });
-    },
-  },
-  mounted() {
-    this.initMap();
-  },
+      ]
+    };
+  }
 };
 </script>
 
+
 <style scoped>
-.home-view {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f4f4f4;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* Sekcja tła */
+.hero-section {
+  background-image: url('@/assets/tło3.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 10%;
+  text-align: right;
+  position: relative;
 }
 
-.form-section {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
+.hero-text {
+  position: absolute;
+  top: 50%; /* Ustawienie napisu na odpowiedniej wysokości */
+  left: 57%; /* Pozycjonowanie napisu w środku */
+  transform: translateX(-50%); /* Przesunięcie napisu w lewo o połowę */
 }
 
-.form-group {
-  margin-bottom: 20px;
+.hero-text h1 {
+  color: white;
+  font-size: 4rem;
+  margin: 0;
+  line-height: 1.2;
 }
 
-label {
-  display: block;
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-
-input, select, button {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-button {
-  background-color: #000;
+.hero-text .btn-black {
+  background-color: black;
   color: white;
   padding: 10px 20px;
-  border: none;
-  cursor: pointer;
+  font-size: 1.2rem;
+  margin-top: 30px;
+  text-decoration: none;
 }
 
-button:hover {
-  background-color: #333;
-}
 
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.error {
-  color: red;
-  font-size: 14px;
-}
-
-#map {
-  width: 100%;
-  height: 400px;
-  margin-top: 20px;
-}
-
-/* Stylizacja nagłówków */
-.main-header {
+/* Sekcja Aktualności */
+.news-section {
+  padding: 50px 20px;
+  background-color: #f8f9fa;
   text-align: center;
-  font-size: 24px;
-  margin-bottom: 20px;
-  margin-top: 20px;
+}
+
+.news-section h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+/* Kontenery z aktualnościami */
+.news-container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.news-card {
+  background-color: white;
+  padding: 20px;
+  width: 250px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.news-card .date {
+  font-size: 1rem;
+  color: #888;
+}
+
+.news-card h3 {
+  font-size: 1.5rem;
+  margin: 10px 0;
+}
+
+.news-card p {
+  font-size: 1rem;
+  color: #333;
+  margin: 10px 0;
+}
+
+.news-card .btn {
+  margin-top: 10px;
+  font-size: 1rem;
+  padding: 5px 15px;
+  text-decoration: none;
 }
 </style>
