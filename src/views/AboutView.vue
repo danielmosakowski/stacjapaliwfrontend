@@ -1,63 +1,62 @@
 <template>
   <main class="about-us">
     <div class="container">
-      <h1>O nas</h1>
-      <!-- Przekreślony tekst pod O nas -->
-      <p class="skreslony">Chcemy dostać 5 z projektu.</p>
-      <!-- Normalny opis -->
-      <p class="description">
-        Jesteśmy pasjonatami nowych technologii i innowacji, tworzymy rozwiązania, które zmieniają sposób, w jaki ludzie korzystają z usług.
-      </p>
-      <p class="description_small"> Tak naprawde to chcemy dostać 5 i nie pisać egzaminu!</p>
-      <hr class="divider"> <!-- Dodana kreska -->
+      <div class="about-container">
+        <h1>O nas</h1>
+        <p class="skreslony">Chcemy dostać 5 z projektu.</p>
+        <p class="description">
+          Jesteśmy pasjonatami nowych technologii i innowacji, tworzymy rozwiązania, które zmieniają sposób, w jaki ludzie korzystają z usług.
+        </p>
+        <p class="description_small"> Tak naprawde to chcemy dostać 5 i nie pisać egzaminu!</p>
+        <hr class="divider">
 
-      <div class="team-section">
-        <h2 class="team-title">Nasz zespół</h2>
-        <div class="team-members">
-          <div class="team-member">
-            <img src="@/assets/Andrzej.jpg" alt="Członek Zespołu" class="team-photo" />
-            <h3>Andrzej Czabajski</h3>
-            <p><b>Leader / Project Manager / Tester</b></p><br>
-            <p>Pracownik Samorządowy na co dzień zatrudniony w Wydziale Aktywności Lokalnej i Promocji Miasta Legnicy.
-              Absolwent Uniwersytetu Wrocławskiego na kierunku Administracja. W 2022 roku rozpoczął studia na Collegium Witelona
-              na kierunku Informatyka, gdzie ma nadzieję obronić pracę inżynierską i spełnić swoje marzenie. Na co dzień pasjonat
-              i instruktor jazdy na rolkach oraz łyżwach. Kocha gry wideo. Powiadają, że gdyby w latach 90 dokończył kurs html w pajączku
-              to dzisiaj byłby guru tworzenia stron internetowych.
-            </p>
-          </div>
-          <div class="team-member">
-            <img src="@/assets/Daniel.jpg" alt="Członek Zespołu" class="team-photo" />
-            <h3>Daniel Mosakowski</h3>
-            <p><b>Frontend / Backend - Lead Developer</b></p><br>
-            <p>Student informatyki interesujący się programowaniem aplikacji mobilnych. W wolnym czasie lubi biegać i jeździć na rowerze.</p>
-          </div>
-          <div class="team-member">
-            <img src="@/assets/Dominik.jpg" alt="Członek Zespołu" class="team-photo" />
-            <h3>Dominik Kamiński</h3>
-            <p><b>Frontend</b></p><br>
-            <p>Początkujący programista, który wciąż szuka swojego kierunku na ścieżce zawodowej, aktualnie student 3 roku w Collegium Witelona
-              na kierunku informatycznym. W wolnym czasie pasjonat szachów, książek o tematyce samorozwoju i siłowni.</p>
-          </div>
-          <div class="team-member">
-            <img src="@/assets/Przemek.jpg" alt="Członek Zespołu" class="team-photo" />
-            <h3>Przemysław Typa</h3>
-            <p><b>Backend</b></p><br>
-            <p>Student informatyki z niewielkim, ale rosnącym doświadczeniem w programowaniu w języku Java oraz w pracy z systemem kontroli wersji Git/GitHub. Hobby: szachy i bieganie.
-            </p>
+        <div class="team-section">
+          <h2 class="team-title">Nasz zespół</h2>
+          <div class="team-members">
+            <div class="team-member">
+              <img src="@/assets/Andrzej.jpg" alt="Członek Zespołu" class="team-photo" />
+              <h3>Andrzej Czabajski</h3>
+              <p><b>Leader / Project Manager / Tester</b></p><br>
+              <p>Pracownik Samorządowy na co dzień zatrudniony w Wydziale Aktywności Lokalnej i Promocji Miasta Legnicy.
+                Absolwent Uniwersytetu Wrocławskiego na kierunku Administracja. W 2022 roku rozpoczął studia na Collegium Witelona
+                na kierunku Informatyka, gdzie ma nadzieję obronić pracę inżynierską i spełnić swoje marzenie. Na co dzień pasjonat
+                i instruktor jazdy na rolkach oraz łyżwach. Kocha gry wideo. Powiadają, że gdyby w latach 90 dokończył kurs html w pajączku
+                to dzisiaj byłby guru tworzenia stron internetowych.
+              </p>
+            </div>
+            <div class="team-member">
+              <img src="@/assets/Daniel.jpg" alt="Członek Zespołu" class="team-photo" />
+              <h3>Daniel Mosakowski</h3>
+              <p><b>Frontend / Backend - Lead Developer</b></p><br>
+              <p>Student informatyki interesujący się programowaniem aplikacji mobilnych. W wolnym czasie lubi biegać i jeździć na rowerze.</p>
+            </div>
+            <div class="team-member">
+              <img src="@/assets/Dominik.jpg" alt="Członek Zespołu" class="team-photo" />
+              <h3>Dominik Kamiński</h3>
+              <p><b>Frontend</b></p><br>
+              <p>Początkujący programista, który wciąż szuka swojego kierunku na ścieżce zawodowej, aktualnie student 3 roku w Collegium Witelona
+                na kierunku informatycznym. W wolnym czasie pasjonat szachów, książek o tematyce samorozwoju i siłowni.</p>
+            </div>
+            <div class="team-member">
+              <img src="@/assets/Przemek.jpg" alt="Członek Zespołu" class="team-photo" />
+              <h3>Przemysław Typa</h3>
+              <p><b>Backend</b></p><br>
+              <p>Student informatyki z niewielkim, ale rosnącym doświadczeniem w programowaniu w języku Java oraz w pracy z systemem kontroli wersji Git/GitHub. Hobby: szachy i bieganie.
+              </p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <hr class="divider"> <!-- Dodana kreska przed Naszą misją -->
+        <hr class="divider">
 
-      <h2 class="team-title">Nasza misja</h2>
+        <h2 class="team-title">Nasza misja</h2>
         <p>
           Naszym celem jest stworzenie porównywarki cen paliw. Aplikacji umożliwiającej użytkownikom przeglądanie listy oraz mapy stacji paliwowych z
           filtrami według m.in. marki, rodzaju paliwa i ceny. Użytkownicy mogą zgłaszać ceny paliw a administratorzy zarządzają użytkownikami, stacjami
           oraz zgłoszonymi cenami. Aplikacja umożliwia nagradzanie użytkowników dodatkowymi punktami.
         </p><br><br>
 
-
+      </div>
     </div>
   </main>
 </template>
@@ -65,7 +64,11 @@
 <style scoped>
 .about-us {
   padding: 20px;
-  background-color: #f4f4f4;
+  background-image: url('@/assets/tło2.jpg'); /* Zmienione tło na tło18.jpg */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: white;
 }
 
 .container {
@@ -73,9 +76,20 @@
   margin: 0 auto;
 }
 
+.about-container {
+  background-color: rgba(0, 0, 0, 0.5); /* Ciemne półprzezroczyste tło */
+  padding: 40px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 h1 {
   text-align: center;
-  color: #333;
+  color: #fff;
 }
 
 .skreslony {
@@ -90,14 +104,14 @@ h1 {
   font-size: 18px;
   text-align: center;
   margin: 20px 0;
-  color: #666;
+  color: #fff;
 }
 
 .description_small {
   font-size: 8px;
   text-align: center;
   margin: 20px 0;
-  color: #666;
+  color: #fff;
 }
 
 .divider {
@@ -130,7 +144,7 @@ h1 {
 }
 
 .team-member h3 {
-  color: #333;
+  color: #fff;
 }
 
 .team-photo {
@@ -157,5 +171,3 @@ h1 {
   color: #555;
 }
 </style>
-<script setup lang="ts">
-</script>

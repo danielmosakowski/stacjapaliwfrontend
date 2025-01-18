@@ -1,38 +1,40 @@
 <template>
   <main class="login-page">
     <div class="container">
-      <h1>Logowanie</h1>
+      <div class="form-section">
+        <h1>Logowanie</h1>
 
-      <ul v-if="errors.length">
-        <li v-for="error in errors" :key="error" class="text-danger">
-          {{ error }}
-        </li>
-      </ul>
+        <ul v-if="errors.length">
+          <li v-for="error in errors" :key="error" class="text-danger">
+            {{ error }}
+          </li>
+        </ul>
 
-      <!-- Formularz logowania -->
-      <form @submit.prevent="login" class="form-section">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-              type="email"
-              v-model="email"
-              id="email"
-              placeholder="Email@domain.pl"
-              required />
-        </div>
+        <!-- Formularz logowania -->
+        <form @submit.prevent="login">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+                type="email"
+                v-model="email"
+                id="email"
+                placeholder="Email@domain.pl"
+                required />
+          </div>
 
-        <div class="form-group">
-          <label for="password">Hasło</label>
-          <input
-              type="password"
-              v-model="password"
-              id="password"
-              placeholder="Podaj hasło"
-              required />
-        </div>
+          <div class="form-group">
+            <label for="password">Hasło</label>
+            <input
+                type="password"
+                v-model="password"
+                id="password"
+                placeholder="Podaj hasło"
+                required />
+          </div>
 
-        <button type="submit">Zaloguj</button>
-      </form>
+          <button type="submit">Zaloguj</button>
+        </form>
+      </div>
     </div>
   </main>
 </template>
@@ -51,9 +53,6 @@ export default {
   },
   methods: {
     login() {
-      //alert('hello')
-
-      //this.errors = '';
       this.clearMessage();
 
       axios.get('/sanctum/csrf-cookie').then(response => {
@@ -63,39 +62,28 @@ export default {
           password: this.password,
           is_admin: this.is_admin,
         }).then(response => {
-          //console.log(response);
-          //console.log(response.data)
-
-          //dispatch authentication
           const status=true;
-          const token=response.data.token
-          console.log(response.data.token)
+          const token=response.data.token;
+          console.log(response.data.token);
 
-          this.$store.dispatch('setAuthToken',token)
-          //this.$store.dispatch('checkUserAuthenticationStatus', status)
-          this.$store.dispatch('setAuthStatus', status)
-
-
+          this.$store.dispatch('setAuthToken',token);
+          this.$store.dispatch('setAuthStatus', status);
 
           this.$router.push({
             name: 'dashboard'
-          })
+          });
 
           if (response.status == 201){
-            //this.successMsg = response.data.message;
-            console.log(response.data.message)
+            console.log(response.data.message);
           }
-
 
         }).catch(error =>{
-
           if(error.response.status == 422){
-            this.errors = Object.values(error.response.data.errors).flat()
+            this.errors = Object.values(error.response.data.errors).flat();
           } else {
-            this.errors=["Something went wrong"]
+            this.errors=["Something went wrong"];
           }
-
-        })
+        });
 
       });
     },
@@ -104,16 +92,21 @@ export default {
       this.errors = '';
       this.successMsg='';
     }
-
   }
 }
 </script>
 
 <style scoped>
 .login-page {
-  padding: 20px;
-  background-color: #f4f4f4;
+  display: flex; /* Flexbox dla centrowania */
+  justify-content: center; /* Centrowanie poziome */
+  align-items: center; /* Centrowanie pionowe */
+  min-height: 100vh; /* Wysokość na pełny ekran */
+  background-image: url('@/assets/tło18.jpg'); /* Tło strony */
+  background-size: cover; /* Dopasowanie tła */
+  background-position: center; /* Pozycjonowanie tła */
 }
+
 
 .container {
   max-width: 800px;
@@ -127,11 +120,13 @@ h1 {
 }
 
 .form-section {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
+  background-color: #fff; /* Tło formularza */
+  padding: 20px; /* Odstępy wewnętrzne */
+  border-radius: 8px; /* Zaokrąglenie rogów */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Cień */
+  width: 800px; /* Stała szerokość formularza */
+  max-width: 100%; /* Zapobiega przekroczeniu szerokości na małych ekranach */
+  margin: auto; /* Centrowanie poziome */
 }
 
 .form-group {

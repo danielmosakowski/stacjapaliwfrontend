@@ -1,6 +1,6 @@
 <template>
   <main class="register-page">
-    <div class="container">
+    <form @submit.prevent="register" class="form-section">
       <h1>Rejestracja</h1>
 
       <!-- Komunikaty o błędach -->
@@ -11,32 +11,31 @@
       </ul>
 
       <!-- Formularz rejestracji -->
-      <form @submit.prevent="register" class="form-section">
-        <div class="form-group">
-          <label for="name">Imię i nazwisko</label>
-          <input type="text" v-model="name" id="name" placeholder="Jan Kowalski" required />
-        </div>
+      <div class="form-group">
+        <label for="name">Imię i nazwisko</label>
+        <input type="text" v-model="name" id="name" placeholder="Jan Kowalski" required />
+      </div>
 
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" v-model="email" id="email" placeholder="Email@domain.pl" required />
-        </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" v-model="email" id="email" placeholder="Email@domain.pl" required />
+      </div>
 
-        <div class="form-group">
-          <label for="password">Hasło</label>
-          <input type="password" v-model="password" id="password" placeholder="Podaj hasło" required />
-        </div>
+      <div class="form-group">
+        <label for="password">Hasło</label>
+        <input type="password" v-model="password" id="password" placeholder="Podaj hasło" required />
+      </div>
 
-        <div class="form-group">
-          <label for="confirmed_password">Potwierdź hasło</label>
-          <input type="password" v-model="confirmed_password" id="confirmed_password" placeholder="Powtórz hasło" required />
-        </div>
+      <div class="form-group">
+        <label for="confirmed_password">Potwierdź hasło</label>
+        <input type="password" v-model="confirmed_password" id="confirmed_password" placeholder="Powtórz hasło" required />
+      </div>
 
-        <button type="submit">Zarejestruj</button>
-      </form>
-    </div>
+      <button type="submit">Zarejestruj</button>
+    </form>
   </main>
 </template>
+
 
 <script>
 import axios from "axios";
@@ -79,27 +78,30 @@ export default {
 
 <style scoped>
 .register-page {
-  padding: 20px;
-  background-color: #f4f4f4;
-}
+  display: flex; /* Flexbox dla centrowania */
+  justify-content: center; /* Centrowanie poziome */
+  align-items: center; /* Centrowanie pionowe */
+  min-height: 100vh; /* Wysokość na pełny ekran */
+  background-image: url('@/assets/tło19.jpg'); /* Tło strony */
+  background-size: cover; /* Dopasowanie tła */
+  background-position: center; /* Pozycjonowanie tła */
 
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-h1 {
-  text-align: center;
-  color: #333;
-  margin-bottom: 30px;
 }
 
 .form-section {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
+  background-color: #fff; /* Tło formularza */
+  padding: 20px; /* Odstępy wewnętrzne */
+  border-radius: 8px; /* Zaokrąglenie rogów */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Cień */
+  width: 800px; /* Stała szerokość formularza */
+  max-width: 100%; /* Zapobiega przekroczeniu szerokości na małych ekranach */
+  margin: auto; /* Centrowanie poziome */
+}
+
+h1 {
+  text-align: center; /* Wyśrodkowanie nagłówka */
+  color: #333;
+  margin-bottom: 30px;
 }
 
 .form-group {
