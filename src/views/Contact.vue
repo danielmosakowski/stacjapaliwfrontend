@@ -38,11 +38,11 @@
         <form @submit.prevent="submitForm">
           <div class="form-group">
             <label for="name">Imię i nazwisko</label>
-            <input type="text" id="name" v-model="formData.name" placeholder="Wpisz swoje imię i nazwisko" required />
+            <input type="text" id="name" v-model="formData.name" placeholder="Jan Kowalski" required />
           </div>
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email" v-model="formData.email" placeholder="Wpisz swój email" required />
+            <input type="email" id="email" v-model="formData.email" placeholder="Email@domain.pl" required />
           </div>
           <div class="form-group">
             <label for="message">Wiadomość</label>
