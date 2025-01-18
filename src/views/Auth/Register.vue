@@ -67,6 +67,11 @@ export default {
           })
           .then(() => {
             alert("Rejestracja zakończona sukcesem!");
+            // Czyszczenie formularza
+            this.name = "";
+            this.email = "";
+            this.password = "";
+            this.confirmed_password = "";
           })
           .catch((error) => {
             this.errors = Object.values(error.response.data.errors).flat();
