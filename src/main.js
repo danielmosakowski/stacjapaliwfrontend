@@ -5,6 +5,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store/index.js'
 import axios from "axios";
+//import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap';
 
 
 // Importowanie funkcji z navbar.js
