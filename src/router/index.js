@@ -6,6 +6,7 @@ import Login from "@/views/Auth/Login.vue";
 import ListOfStations from "@/views/ListOfStations.vue";  // Komponent ListOfStations
 import ContactView from "@/views/Contact.vue";  // Import komponentu Kontakt
 import Dashboard from "@/views/Dashboard.vue";
+import SuggestPriceForm from "@/views/SuggestPriceForm.vue";
 import Admin from "@/views/Admin.vue";
 import Search from "@/views/Search.vue";
 import store from "@/store/index.js";
@@ -55,6 +56,18 @@ const router = createRouter({
       path: '/contact',  // Strona Kontakt
       name: 'contact',
       component: ContactView,  // Komponent Kontakt
+    },
+    {
+      path: "/suggest-price",
+      name: "SuggestPriceForm",
+      component: SuggestPriceForm,
+      props: (route) => ({
+        user_id: route.params.user_id,
+        station_fuel_type_id: route.params.station_fuel_type_id,
+      }),
+      meta: {
+        requiresAuth: true
+      },
     },
     {
       path: '/admin',

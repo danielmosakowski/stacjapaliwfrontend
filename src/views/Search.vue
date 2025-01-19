@@ -33,12 +33,18 @@
         <tr>
           <th>Rodzaj paliwa</th>
           <th>Cena</th>
+          <th>Akcja</th>
         </tr>
         </thead>
         <tbody>
         <tr v-for="fuel in selectedStationFuelTypes" :key="fuel.id">
           <td>{{ fuel.fuelType.name }}</td>
           <td>{{ fuel.price }} PLN</td>
+          <td>
+            <button @click="redirectToSuggestionForm(fuel.id)">
+              Zaproponuj cenę
+            </button>
+          </td>
         </tr>
         </tbody>
       </table>
@@ -51,6 +57,7 @@ import "leaflet/dist/leaflet.css";
 export default {
   data() {
     return {
+      user: null, // Zalogowany użytkownik
       map: null,
       stations: [],
       brands: [],
@@ -64,10 +71,40 @@ export default {
     };
   },
   async created() {
+    await this.getUserDetails(); // Pobranie danych zalogowanego użytkownika
     await this.fetchData();
     this.initMap();
   },
   methods: {
+    async getUserDetails() {
+      try {
+        const response = await fetch("http://localhost:8000/api/user", {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
+        if (response.ok) {
+          this.user = await response.json();
+        } else {
+          throw new Error("Nie udało się pobrać danych użytkownika.");
+        }
+      } catch (error) {
+        console.error("Błąd pobierania użytkownika:", error);
+        this.user = null;
+      }
+    },
+    redirectToSuggestionForm(stationFuelTypeId) {
+      if (!this.user) {
+        alert("Musisz być zalogowany, aby zaproponować cenę.");
+        return;
+      }
+      this.$router.push({
+        name: "SuggestPriceForm",
+        params: {
+          user_id: this.user.id,
+          station_fuel_type_id: stationFuelTypeId,
+        },
+      });
+    },
+
     async fetchData() {
       try {
         const stationsResponse = await fetch("http://localhost:8000/api/stations");
