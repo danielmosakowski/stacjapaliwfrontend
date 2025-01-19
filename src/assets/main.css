@@ -168,20 +168,30 @@ i {
     margin-right: 15px;
     font-size: 18px;
     text-decoration: none;
-    width: 40px;
-    height: 40px;
+    width: 40px; /* Szerokość kółka */
+    height: 40px; /* Wysokość kółka */
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    background-color: transparent;
-    transition: all 0.3s ease;
+    border-radius: 50%; /* Tworzenie kółka */
+    background-color: transparent; /* Domyślne tło */
+    transition: all 0.3s ease; /* Płynne przejście */
+    box-sizing: border-box;
+    border: 2px solid transparent; /* Opcjonalne obramowanie */
+    position: relative; /* Kluczowe do prawidłowego wyśrodkowania */
+}
+
+.footer-left a i {
+    font-size: 18px; /* Rozmiar ikony */
+    margin: 0; /* Brak marginesów */
+    padding: 0; /* Brak paddingów */
+    line-height: 1; /* Poprawia centrowanie tekstu wewnątrz kółka */
 }
 
 .footer-left a:hover {
-    color: #000;
-    background-color: #fff;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    color: #000; /* Czarny kolor ikony */
+    background-color: #fff; /* Białe tło */
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3); /* Subtelny cień */
 }
 
 .footer-center {

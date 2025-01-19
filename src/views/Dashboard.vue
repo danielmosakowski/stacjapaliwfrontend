@@ -185,3 +185,25 @@ export default {
   },
 };
 </script>
+<style scoped>
+.custom-card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #f1f1f1;
+  border-radius: 8px 8px 0 0;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-text {
+  font-size: 16px;
+  color: #555;
+}
+</style>

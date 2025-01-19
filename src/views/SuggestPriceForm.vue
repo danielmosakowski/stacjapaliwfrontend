@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <main class="fuel-price-suggestion-page">
     <div class="form-container">
       <h1>Wprowadź sugestię ceny paliwa</h1>

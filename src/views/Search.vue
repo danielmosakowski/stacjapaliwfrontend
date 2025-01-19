@@ -97,13 +97,17 @@ export default {
         return;
       }
 
+
       // Przekierowanie do formularza i przekazanie danych przez parametry URL
+
       this.$router.push({
         name: "SuggestPriceForm",
         params: {
           user_id: this.user.id,
           station_fuel_type_id: stationFuelTypeId,
+
         }
+
       });
     },
 
