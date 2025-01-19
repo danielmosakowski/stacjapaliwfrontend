@@ -58,16 +58,13 @@ const router = createRouter({
       component: ContactView,  // Komponent Kontakt
     },
     {
-      path: "/suggest-price",
+      path: "/suggest-price/:user_id/:station_fuel_type_id",
       name: "SuggestPriceForm",
       component: SuggestPriceForm,
-      props: (route) => ({
-        user_id: route.params.user_id,
-        station_fuel_type_id: route.params.station_fuel_type_id,
-      }),
+      props: true,  // Umożliwia przekazywanie parametrów jako props
       meta: {
         requiresAuth: true
-      },
+      }
     },
     {
       path: '/admin',
