@@ -9,6 +9,7 @@
         <th scope="col">Ścieżka zdjęcia</th>
         <th scope="col">Data</th>
         <th scope="col">Status zatwierdzenia</th>
+        <th scope="col">Akcja</th> <!-- Kolumna na przycisk -->
       </tr>
       </thead>
       <tbody>
@@ -18,6 +19,12 @@
         <td>{{ user.photo_path }}</td>
         <td>{{ user.price_date }}</td>
         <td>{{ user.approved ? 'Zatwierdzone' : 'Oczekuje' }}</td>
+        <td>
+          <!-- Przyciski tylko jeśli status to "Oczekuje" -->
+          <button v-if="!user.approved" @click="approveSuggestion(user.id)">
+            Zatwierdź
+          </button>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -40,17 +47,38 @@ export default {
 
   methods: {
     fetchUsers() {
-      axios.get('http://localhost:8000/api/fuel-price-suggestions/user/20', {
+      axios.get('http://localhost:8000/api/fuel-price-suggestions', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       })
-          .then((response) => {
-            this.users = response.data;
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+      .then((response) => {
+        this.users = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    },
+
+    // Funkcja do zatwierdzania propozycji
+    approveSuggestion(userId) {
+      axios.put(`http://localhost:8000/api/fuel-price-suggestions/${userId}`, {
+        approved: 1, // Zmieniamy na 1
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+      .then(() => {
+        // Zaktualizowanie statusu zatwierdzenia w UI po udanej operacji
+        const user = this.users.find(u => u.id === userId);
+        if (user) {
+          user.approved = 1;
+        }
+      })
+      .catch((error) => {
+        console.error("Błąd przy zatwierdzaniu propozycji:", error);
+      });
     },
   },
 };
@@ -70,5 +98,18 @@ th, td {
 
 th {
   background-color: #f4f4f4;
+}
+
+button {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: darkgreen;
 }
 </style>
