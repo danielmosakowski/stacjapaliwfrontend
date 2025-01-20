@@ -33,7 +33,7 @@
               <RouterLink class="nav-link" to="/about" active-class="active-link"><i class="fas fa-info-circle"></i>O nas</RouterLink>
             </li>
             <li class="nav-item">
-              <RouterLink class="nav-link" v-if="isAuthenticated" to="/dashboard" active-class="active-link"><i class="fas fa-columns"></i>Tablica</RouterLink>
+              <RouterLink class="nav-link" v-if="isAuthenticated" to="/dashboard" active-class="active-link"><i class="fas fa-columns"></i>Panel użytkownika</RouterLink>
             </li>
             <li class="nav-item">
               <RouterLink class="nav-link" v-if="isAuthenticated && isAdmin" to="/admin" active-class="active-link"><i class="fas fa-cogs"></i>Admin</RouterLink>
