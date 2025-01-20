@@ -49,11 +49,7 @@
 
         <hr class="divider">
 
-<<<<<<< HEAD
-        <h2 class="team-title">Nasza misja</h2>
-=======
         <h2 id="bottom" class="team-title">Nasza misja</h2>
->>>>>>> c83f1a6f53f2a429dc7257397deccc02768d7ece
         <p>
           Naszym celem jest stworzenie porównywarki cen paliw. Aplikacji umożliwiającej użytkownikom przeglądanie listy oraz mapy stacji paliwowych z
           filtrami według m.in. marki, rodzaju paliwa i ceny. Użytkownicy mogą zgłaszać ceny paliw a administratorzy zarządzają użytkownikami, stacjami
