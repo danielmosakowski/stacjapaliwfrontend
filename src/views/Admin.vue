@@ -136,24 +136,26 @@ export default {
 
     // Funkcja do zatwierdzania propozycji
     approveSuggestion(suggestionId) {
-      axios
+    axios
         .put(
-          `http://localhost:8000/api/fuel-price-suggestions/${suggestionId}`,
-          { approved: 1 },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
+            `http://localhost:8000/api/fuel-price-suggestions/${suggestionId}`,
+            { approved: 1 },
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }
         )
         .then(() => {
-          // Po zatwierdzeniu odśwież listę zgłoszeń
-          this.fetchSuggestions();
+            // Po zatwierdzeniu odśwież listę zgłoszeń
+            this.fetchSuggestions();
         })
         .catch((error) => {
-          console.error("Błąd przy zatwierdzaniu propozycji:", error);
+            console.error("Błąd przy zatwierdzaniu propozycji:", error.response);
+            // Pokazujemy pełny błąd z odpowiedzi serwera
         });
     },
+
   },
 };
 </script>
