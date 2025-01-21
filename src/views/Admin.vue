@@ -24,7 +24,12 @@
         <td>{{ suggestion.station_name || 'Ładowanie...' }}</td>
         <td>{{ suggestion.station_address || 'Ładowanie...' }}</td>
         <td>{{ suggestion.fuel_type_name || 'Ładowanie...' }}</td>
-        <td>{{ suggestion.photo_path }}</td>
+        <td>
+          <a v-if="suggestion.photo_path" :href="`http://localhost:8000/storage/${suggestion.photo_path}`" target="_blank">
+            Zobacz zdjęcie
+          </a>
+          <span v-else>Brak zdjęcia</span>
+        </td>
         <td>{{ suggestion.price_date }}</td>
         <td>{{ suggestion.approved ? 'Zatwierdzone' : 'Oczekuje' }}</td>
         <td>
