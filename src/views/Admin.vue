@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>Lista zgłoszeń</h1>
+    <p>Zaakceptowane zgłoszenia: {{ approvedCount }}</p>
     <table>
       <thead>
       <tr>
@@ -50,6 +51,7 @@ export default {
   data() {
     return {
       suggestions: [], // Lista zgłoszeń
+      approvedCount: 0, // Licznik zaakceptowanych zgłoszeń
     };
   },
 
@@ -69,6 +71,12 @@ export default {
         .then((response) => {
           this.suggestions = response.data; // Zapisanie zgłoszeń
           console.log("Sugestie cen:", this.suggestions);
+
+          // Ustawienie liczby zaakceptowanych zgłoszeń
+          this.approvedCount = this.suggestions.filter(
+            (suggestion) => suggestion.approved === 1
+          ).length;
+
           // Pobieranie szczegółów stacji i paliw
           this.suggestions.forEach((suggestion) => {
             if (suggestion.station_fuel_type_id) {
@@ -149,6 +157,9 @@ export default {
         .then(() => {
             // Po zatwierdzeniu odśwież listę zgłoszeń
             this.fetchSuggestions();
+
+            // Zwiększ licznik zaakceptowanych zgłoszeń
+            this.approvedCount++;
         })
         .catch((error) => {
             console.error("Błąd przy zatwierdzaniu propozycji:", error.response);
