@@ -2,6 +2,7 @@
   <div>
     <h1>Lista zgłoszeń</h1>
     <p>Zaakceptowane zgłoszenia: {{ approvedCount }}</p>
+    <p>Odrzucone zgłoszenia: {{ rejectedCount }}</p>
     <table>
       <thead>
       <tr>
@@ -36,6 +37,9 @@
         <td>
           <button v-if="!suggestion.approved" @click="approveSuggestion(suggestion.id)">
             Zatwierdź
+          </button>
+          <button v-if="!suggestion.approved" class="reject" @click="rejectSuggestion(suggestion.id)">
+          Odrzuć
           </button>
         </td>
       </tr>
@@ -76,6 +80,9 @@ export default {
           this.approvedCount = this.suggestions.filter(
             (suggestion) => suggestion.approved === 1
           ).length;
+          this.rejectedCount = this.suggestions.filter(
+            (suggestion) => suggestion.approved === 0 && suggestion.rejected
+          ).length;
 
           // Pobieranie szczegółów stacji i paliw
           this.suggestions.forEach((suggestion) => {
@@ -86,6 +93,26 @@ export default {
         })
         .catch((error) => {
           console.error("Błąd pobierania zgłoszeń:", error);
+        });
+    },
+
+    // odrzucanie zgłoszenia
+    rejectSuggestion(suggestionId) {
+      axios
+        .delete(`http://localhost:8000/api/fuel-price-suggestions/${suggestionId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then(() => {
+          // Po odrzuceniu usuń zgłoszenie z listy i zwiększ licznik odrzuconych
+          this.suggestions = this.suggestions.filter(
+            (suggestion) => suggestion.id !== suggestionId
+          );
+          this.rejectedCount++;
+        })
+        .catch((error) => {
+          console.error("Błąd przy odrzucaniu propozycji:", error.response);
         });
     },
 
@@ -199,4 +226,13 @@ button {
 button:hover {
   background-color: darkgreen;
 }
+
+button.reject {
+  background-color: red;
+}
+
+button.reject:hover {
+  background-color: darkred;
+}
+
 </style>
