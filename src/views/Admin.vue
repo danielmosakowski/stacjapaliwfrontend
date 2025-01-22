@@ -56,6 +56,7 @@ export default {
     return {
       suggestions: [], // Lista zgłoszeń
       approvedCount: 0, // Licznik zaakceptowanych zgłoszeń
+      rejectedCount: 0, // Licznik odrzuconych zgłoszeń
     };
   },
 
