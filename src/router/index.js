@@ -10,6 +10,8 @@ import SuggestPriceForm from "@/views/SuggestPriceForm.vue";
 import Admin from "@/views/Admin.vue";
 import Search from "@/views/Search.vue";
 import store from "@/store/index.js";
+import AdminBrands from "@/views/AdminBrands.vue";
+import AdminStations from "@/views/AdminStations.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -73,7 +75,19 @@ const router = createRouter({
       meta: {
         requiresAuth: true
       }
-    }
+    },
+    {
+      path: "/admin/brands",
+      name: "AdminBrands",
+      component: AdminBrands,
+      meta: { requiresAuth: true, isAdmin: true },
+    },
+    {
+      path: "/admin/stations",
+      name: "AdminStations",
+      component: AdminStations,
+      meta: { requiresAuth: true, isAdmin: true },
+    },
   ],
 
 linkActiveClass: 'active',

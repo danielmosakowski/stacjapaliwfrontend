@@ -1,5 +1,8 @@
 <template>
   <div>
+    <h1>Panel administratora</h1>
+    <button @click="goToBrands">Zarządzaj markami stacji</button>
+    <button @click="goToStations">Zarządzaj stacjami paliwowymi</button>
     <h1>Lista zgłoszeń</h1>
     <p>Zaakceptowane zgłoszenia: {{ approvedCount }}</p>
     <p>Odrzucone zgłoszenia: {{ rejectedCount }}</p>
@@ -65,6 +68,13 @@ export default {
   },
 
   methods: {
+    goToBrands() {
+      this.$router.push("/admin/brands");
+    },
+    goToStations() {
+      this.$router.push("/admin/stations");
+    },
+    
     // Pobieranie listy zgłoszeń
     fetchSuggestions() {
       axios
