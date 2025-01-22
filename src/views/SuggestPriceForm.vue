@@ -1,8 +1,7 @@
 <template>
-
   <main class="fuel-price-suggestion-page">
     <div class="form-container">
-      <h1>Wprowadź sugestię ceny paliwa</h1>
+      <h1>Wprowadź sugestię ceny paliwa</h1><br>
 
       <!-- Komunikaty o błędach -->
       <ul v-if="errors.length">
@@ -13,9 +12,9 @@
 
       <!-- Nagłówek z nazwą użytkownika, stacji i rodzaju paliwa -->
       <p v-if="user && stationDetails" class="lead">
-        Nazwa użytkownika: {{ user.data.name }}<br />
-        Formularz propozycji cen dla stacji: {{ stationDetails.name }}<br />
-        Rodzaj paliwa: {{ stationDetails.fuelTypeName }}
+        Nazwa użytkownika: {{ user.data.name }}<br><br>
+        Formularz propozycji cen dla stacji: {{ stationDetails.name }}<br><br>
+        Rodzaj paliwa: {{ stationDetails.fuelTypeName }}<br><br>
       </p>
 
       <!-- Formularz -->
@@ -74,9 +73,6 @@
 
         <button type="submit">Wyślij sugestię</button>
       </form>
-
-      <!-- Tabela wyświetlająca user_id oraz station_fuel_type_id -->
-
     </div>
   </main>
 </template>
@@ -94,17 +90,16 @@ export default {
       station_fuel_type_id: null,
       errors: [],
       user: null,
-      stationDetails: null, // Przechowuje dane o stacji i typie paliwa
+      stationDetails: null,
     };
   },
   created() {
-    // Pobranie danych z URL (np. /suggest-price/20/1)
     const pathParts = window.location.pathname.split('/');
-    this.user_id = pathParts[2]; // Pierwsza część ścieżki to user_id
-    this.station_fuel_type_id = pathParts[3]; // Druga część ścieżki to station_fuel_type_id
+    this.user_id = pathParts[2];
+    this.station_fuel_type_id = pathParts[3];
 
-    this.getUserDetails(); // Pobranie danych użytkownika
-    this.getStationDetails(); // Pobranie szczegółów stacji
+    this.getUserDetails();
+    this.getStationDetails();
   },
   methods: {
     handleFileUpload(event) {
@@ -115,14 +110,12 @@ export default {
     },
 
     formatPrice() {
-      // Upewnienie się, że cena jest w formacie z kropką (np. 5.11)
-      this.suggested_price = this.suggested_price.replace(',', '.'); // Zamiana przecinka na kropkę
+      this.suggested_price = this.suggested_price.replace(',', '.');
     },
 
     submitSuggestion() {
       this.errors = [];
 
-      // Walidacja przed wysyłaniem formularza
       if (!this.suggested_price || isNaN(this.suggested_price)) {
         this.errors.push('Cena musi być liczbą w formacie np. 5.11.');
         return;
@@ -133,7 +126,6 @@ export default {
         return;
       }
 
-      // Przykład przesyłania danych za pomocą axios
       const formData = new FormData();
       formData.append('user_id', this.user_id);
       formData.append('suggested_price', this.suggested_price);
@@ -148,9 +140,8 @@ export default {
               Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
           })
-          .then((response) => {
+          .then(() => {
             alert('Sugestia została wysłana!');
-            // Reset formularza po udanej wysyłce
             this.resetForm();
           })
           .catch((error) => {
@@ -169,7 +160,6 @@ export default {
       this.price_date = '';
     },
 
-    // Pobieranie danych użytkownika
     getUserDetails() {
       axios
           .get('http://localhost:8000/api/userprofile', {
@@ -185,7 +175,6 @@ export default {
           });
     },
 
-    // Pobieranie szczegółów stacji i rodzaju paliwa na podstawie station_fuel_type_id
     getStationDetails() {
       axios
           .get(`http://localhost:8000/api/station-fuel-types/${this.station_fuel_type_id}`)
@@ -198,7 +187,6 @@ export default {
           });
     },
 
-    // Pobieranie szczegółów stacji
     fetchStationDetails(station_id, fuel_type_id) {
       axios
           .get(`http://localhost:8000/api/stations/${station_id}`)
@@ -214,7 +202,6 @@ export default {
           });
     },
 
-    // Pobieranie szczegółów typu paliwa
     fetchFuelTypeDetails(fuel_type_id) {
       axios
           .get(`http://localhost:8000/api/fuel-types/${fuel_type_id}`)
@@ -230,3 +217,64 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.fuel-price-suggestion-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url('@/assets/tło6.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.form-container {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  max-width: 600px;
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"],
+input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #808000;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #575705;
+}
+
+.text-danger {
+  color: red;
+}
+</style>
