@@ -3,6 +3,7 @@
     <h1>Panel administratora</h1>
     <button @click="goToBrands">Zarządzaj markami stacji</button>
     <button @click="goToStations">Zarządzaj stacjami paliwowymi</button>
+    <button @click="gotoAllUsers">Zarządzaj użytkownikami</button>
     <h1>Lista zgłoszeń</h1>
     <p>Zaakceptowane zgłoszenia: {{ approvedCount }}</p>
     <p>Odrzucone zgłoszenia: {{ rejectedCount }}</p>
@@ -74,7 +75,9 @@ export default {
     goToStations() {
       this.$router.push("/admin/stations");
     },
-    
+    gotoAllUsers() {
+      this.$router.push("/admin/all-users");
+    },
     // Pobieranie listy zgłoszeń
     fetchSuggestions() {
       axios
