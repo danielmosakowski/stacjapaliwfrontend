@@ -56,11 +56,61 @@
       <div v-if="isAuthenticated" class="row mt-3">
         <div class="col-12">
           <section id="suggestions" class="section mb-5 slideInUp">
-            <h3>Moje Sugestie Cen</h3>
-            <p>Tutaj powinna być zgłoszenia z propozycjami cen .</p>
-            <p>Potem opatrze to w tabelke taka jak z "Moje dane".</p>
-          </section>
+          <div class="card mt-4" v-if="suggestions && suggestions.length > 0">
+            <div class="card-header">
+              <h3>Moje Sugestie Cen</h3>
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered">
+                <thead class="table-dark">
+                <tr>
+                  <th scope="col">ID Zgłoszenia</th>
+                  <th scope="col">Cena sugerowana</th>
+                  <th scope="col">Nazwa Stacji</th>
+                  <th scope="col">Adres Stacji</th>
+                  <th scope="col">Rodzaj Paliwa</th>
+                  <th scope="col">Zdjęcie</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="suggestion in suggestions" :key="suggestion.id">
+                  <td>{{ suggestion.id }}</td>
+                  <td>{{ suggestion.suggested_price }} zł</td>
+                  <td>{{ suggestion.station_name }}</td>
+                  <td>{{ suggestion.station_address }}</td>
+                  <td>{{ suggestion.fuel_type_name }}</td>
+                  <td>
+                      <button
+                          class="button-outline-primary"
+                          @click="openModal(suggestion.photo_path)"
+                      >
+                        Pokaż zdjęcie
+                      </button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
 
+            <!-- Modal do podglądu zdjęcia -->
+            <div v-if="showModal" class="modal" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Podgląd Zdjęcia</h5>
+                    <button type="button" class="close" @click="closeModal">&times;</button>
+                  </div>
+                  <div class="modal-body text-center">
+                    <img :src="getImageUrl(currentPhotoPath)" alt="Zdjęcie zgłoszenia" class="img-fluid" />
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @click="closeModal">Zamknij</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </section>
           <section id="points" class="section mb-5 slideInUp">
             <h3>Punkty</h3>
             <p>Liczba twoich punktów to: {{ user ? user.data.points_total : 0 }}!</p>
@@ -165,6 +215,8 @@ export default {
     return {
       user: null,
       suggestions: [],
+      showModal: false,
+      currentPhotoPath: null,
     };
   },
   computed: {
@@ -177,8 +229,26 @@ export default {
       this.$store.dispatch("checkUserAuthenticationStatus");
     }
     this.getUserDetails();
+    this.fetchSuggestions(); // Pobranie zgłoszeń przy załadowaniu komponentu
   },
   methods: {
+    openModal(photoPath) {
+      this.currentPhotoPath = photoPath;
+      this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
+      this.currentPhotoPath = null;
+    },
+    getImageUrl(photoPath) {
+      // Generowanie pełnej ścieżki do zdjęcia
+      return `http://localhost:8000/storage/${photoPath}`;
+    },
+    viewPhoto(photoPath) {
+      // Otwieranie zdjęcia w nowym oknie
+      const imageUrl = this.getImageUrl(photoPath);
+      window.open(imageUrl, "_blank");
+    },
     getUserDetails() {
       axios
           .get("http://localhost:8000/api/userprofile", {
@@ -194,22 +264,91 @@ export default {
             console.error("Błąd pobierania danych użytkownika:", error);
           });
     },
+    // Pobieranie listy zgłoszeń
     fetchSuggestions() {
-      if (this.user && this.user.data.id) {
-        axios
-            .get(`http://localhost:8000/api/fuel-price-suggestions/user/${this.user.data.id}`, {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            })
-            .then((response) => {
-              this.suggestions = response.data;
-            })
-            .catch((error) => {
-              console.error("Błąd pobierania sugestii użytkownika:", error);
+      axios
+          .get("http://localhost:8000/api/fuel-price-suggestions", {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          })
+          .then((response) => {
+            this.suggestions = response.data; // Zapisanie zgłoszeń
+            console.log("Sugestie cen:", this.suggestions);
+
+            // Ustawienie liczby zaakceptowanych zgłoszeń
+            this.approvedCount = this.suggestions.filter(
+                (suggestion) => suggestion.approved === 1
+            ).length;
+            this.rejectedCount = this.suggestions.filter(
+                (suggestion) => suggestion.approved === 0 && suggestion.rejected
+            ).length;
+
+            // Pobieranie szczegółów stacji i paliw
+            this.suggestions.forEach((suggestion) => {
+              if (suggestion.station_fuel_type_id) {
+                this.fetchStationFuelTypeDetails(suggestion);
+              }
             });
-      }
+          })
+          .catch((error) => {
+            console.error("Błąd pobierania zgłoszeń:", error);
+          });
     },
+    // Pobieranie szczegółów użytkownika po user_id
+    fetchUserDetails(suggestion) {
+      axios
+          .get(`http://localhost:8000/api/users/${suggestion.user_id}`)
+          .then((response) => {
+            console.log("Dane użytkownika:", response.data);  // Logowanie odpowiedzi API
+            this.$set(suggestion, 'user', response.data);  // Zapewnia reaktywność
+          })
+          .catch((error) => {
+            console.error("Błąd pobierania danych użytkownika:", error);
+          });
+    },
+
+    // Pobieranie szczegółów Station Fuel Type
+    fetchStationFuelTypeDetails(suggestion) {
+      axios
+          .get(`http://localhost:8000/api/station-fuel-types/${suggestion.station_fuel_type_id}`)
+          .then((response) => {
+            console.log("Station Fuel Type details:", response.data);
+            const { station_id, fuel_type_id } = response.data;
+
+            // Pobieranie danych stacji i rodzaju paliwa
+            this.fetchStationDetails(station_id, fuel_type_id, suggestion);
+          })
+          .catch((error) => {
+            console.error("Błąd pobierania danych Station Fuel Type:", error);
+          });
+    },
+
+    // Pobieranie szczegółów stacji i rodzaju paliwa
+    fetchStationDetails(station_id, fuel_type_id, suggestion) {
+      // Pobranie danych stacji
+      axios
+          .get(`http://localhost:8000/api/stations/${station_id}`)
+          .then((response) => {
+            suggestion.station_name = response.data.name; // Zapisanie nazwy stacji
+            suggestion.station_address = response.data.address; // Zapisanie adresu stacji
+          })
+          .catch((error) => {
+            console.error("Błąd pobierania danych stacji:", error);
+          });
+
+      // Pobranie danych rodzaju paliwa
+      axios
+          .get(`http://localhost:8000/api/fuel-types/${fuel_type_id}`)
+          .then((response) => {
+            suggestion.fuel_type_name = response.data.name; // Zapisanie nazwy paliwa
+          })
+          .catch((error) => {
+            console.error("Błąd pobierania danych rodzaju paliwa:", error);
+          });
+    },
+
+
   },
 };
 </script>
@@ -397,6 +536,95 @@ html {
     opacity: 1;
     transform: translateY(0);
   }
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7); /* Dark background */
+  z-index: 1050;
+}
+
+.modal-dialog {
+  max-width: 600px;
+  width: 90%;
+}
+
+.modal-content {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.modal-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.close {
+  font-size: 1.5rem;
+  color: #333;
+  cursor: pointer;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.modal-footer button {
+  background-color: #808000;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-footer button:hover {
+  background-color: #6c6e00;
+}
+.button-outline-primary {
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #6c6e00;
+  background-color: transparent;
+  border: 2px solid #6c6e00;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.button-outline-primary:hover {
+  background-color: #6c6e00;
+  color: #fff;
+  border-color: #6c6e00;
+  transform: scale(1.05);
+}
+
+.button-outline-primary:focus {
+  outline: none;
 }
 </style>
 
