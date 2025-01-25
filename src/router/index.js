@@ -74,7 +74,7 @@ const router = createRouter({
       name: 'admin',
       component: Admin,
       meta: {
-        requiresAuth: true
+        meta: { requiresAuth: true, isAdmin: true },
       }
     },
     {
