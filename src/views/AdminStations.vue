@@ -1,27 +1,51 @@
 <template>
-  <div class="app-container">
-    <h1>Lista Stacji</h1>
+  <div class="station-management">
+    <h1>Zarządzaj Stacjami</h1>
 
-    <input
-        type="text"
-        v-model="searchQuery"
-        placeholder="Wyszukaj stację po nazwie lub adresie"
-        class="search-input"
-    />
+    <form @submit.prevent="addStation" class="form-section">
+      <label for="brand">Marka:</label>
+      <select v-model="newStation.brand_id" id="brand" @change="updateName">
+        <option value="" disabled>Wybierz markę</option>
+        <option v-for="brand in brands" :key="brand.id" :value="brand.id">
+          {{ brand.name }}
+        </option>
+      </select>
 
-    <table class="stations-table">
+      <label for="name">Nazwa Stacji:</label>
+      <input v-model="newStation.name" id="name" type="text" placeholder="Nazwa stacji" disabled />
+
+      <label for="address">Adres:</label>
+      <input v-model="newStation.address" id="address" type="text" placeholder="Adres" required />
+
+      <label for="longitude">Długość geograficzna:</label>
+      <input v-model="newStation.longitude" id="longitude" type="text" placeholder="Długość geograficzna" required />
+
+      <label for="latitude">Szerokość geograficzna:</label>
+      <input v-model="newStation.latitude" id="latitude" type="text" placeholder="Szerokość geograficzna" required />
+
+      <button type="submit">Dodaj Stację</button>
+    </form>
+
+    <h2>Lista Stacji</h2>
+    <table class="station-table">
       <thead>
       <tr>
         <th>ID</th>
+        <th>Marka</th>
         <th>Nazwa</th>
         <th>Adres</th>
+        <th>Akcje</th>
       </tr>
       </thead>
       <tbody>
-      <tr v-for="station in filteredStations" :key="station.id">
+      <tr v-for="station in stations" :key="station.id">
         <td>{{ station.id }}</td>
+        <td>{{ station.brand_name }}</td>
         <td>{{ station.name }}</td>
         <td>{{ station.address }}</td>
+        <td>
+          <button @click="deleteStation(station.id)">Usuń</button>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -34,9 +58,8 @@ import axios from "axios";
 export default {
   data() {
     return {
-      brands: [],
-      stations: [],
-      searchQuery: "", // Tekst do wyszukiwania
+      brands: [], // Lista marek
+      stations: [], // Lista stacji
       newStation: {
         brand_id: null,
         name: "",
@@ -50,20 +73,10 @@ export default {
     this.fetchBrands();
     this.fetchStations();
   },
-  computed: {
-    filteredStations() {
-      const query = this.searchQuery.toLowerCase();
-      return this.stations.filter(
-          (station) =>
-              station.name.toLowerCase().includes(query) ||
-              station.address.toLowerCase().includes(query)
-      );
-    },
-  },
   methods: {
     sanitizeCoordinates() {
-      this.newStation.longitude = this.newStation.longitude.replace(',', '.');
-      this.newStation.latitude = this.newStation.latitude.replace(',', '.');
+      this.newStation.longitude = this.newStation.longitude.replace(",", ".");
+      this.newStation.latitude = this.newStation.latitude.replace(",", ".");
     },
     fetchBrands() {
       axios
@@ -151,73 +164,90 @@ export default {
 </script>
 
 <style scoped>
-.app-container {
-  background: url('@/assets/tło9.jpg') no-repeat center center fixed;
+.station-management {
+  background: url('@/assets/tło13.jpg') no-repeat center center;
   background-size: cover;
   padding: 20px;
-  min-height: 100vh;
-  color: #333;
+  color: white;
+  font-family: Arial, sans-serif;
 }
 
 h1 {
+  font-size: 2.5rem;
   text-align: center;
-  color: #fff;
   margin-bottom: 20px;
 }
 
-.search-input {
-  display: block;
-  margin: 0 auto 20px auto;
-  padding: 10px;
-  width: 50%;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-}
-
-.stations-table {
-  background-color: rgba(255, 255, 255, 0.8); /* 80% przezroczystości */
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-form {
-  margin-bottom: 20px;
+.form-section {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
 }
 
 label {
   display: block;
   margin-bottom: 5px;
+  color: white;
 }
 
 input, select, button {
   margin-bottom: 15px;
-  padding: 8px;
+  padding: 10px;
   width: 100%;
-}
-
-button {
-  background-color: #007bff;
-  color: white;
+  border-radius: 5px;
   border: none;
+}
+
+/* Przycisk "Dodaj Stację" */
+button[type="submit"] {
+  background-color: #28a745;
+  color: white;
   cursor: pointer;
-  border-radius: 4px;
+  transition: background-color 0.3s;
 }
 
-button:hover {
-  background-color: #0056b3;
+button[type="submit"]:hover {
+  background-color: #218838;
 }
 
-table {
+/* Wszystkie inne przyciski */
+button:not([type="submit"]) {
+  background-color: #dc3545;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:not([type="submit"]):hover {
+  background-color: #a71d2a;
+}
+
+.station-table {
   width: 100%;
   border-collapse: collapse;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 20px;
 }
 
-th, td {
-  padding: 10px;
+.station-table th, .station-table td {
+  padding: 15px;
   border: 1px solid #ddd;
+  text-align: center;
 }
 
-th {
-  background-color: #f4f4f4;
+.station-table th {
+  background-color: #343a40;
+}
+
+.station-table tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.station-table tr:hover {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 </style>
