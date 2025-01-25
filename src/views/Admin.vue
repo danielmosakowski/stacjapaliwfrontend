@@ -7,7 +7,7 @@
         <button @click="goToStations">Zarządzaj stacjami paliwowymi</button>
         <button @click="gotoAllUsers">Zarządzaj użytkownikami</button>
       </div>
-      <h1>Lista zgłoszeń</h1>
+      <h1>Lista zgłoszeń</h1><br>
       <p>Zaakceptowane zgłoszenia: {{ approvedCount }}</p>
       <p>Odrzucone zgłoszenia: {{ rejectedCount }}</p>
       <div class="table-wrapper">
@@ -225,7 +225,7 @@ export default {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-image: url('@/assets/tło5.jpg');
+  background-image: url('@/assets/tło10.jpg');
   background-size: cover;
   background-attachment: fixed; /* Unieruchamia tło */
   background-position: center;
