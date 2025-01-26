@@ -26,12 +26,11 @@
       <button type="submit">Dodaj Stację</button>
     </form>
 
-    <h2>Lista Stacji</h2>
+    <h1>Lista Stacji</h1>
     <table class="station-table">
       <thead>
       <tr>
         <th>ID</th>
-        <th>Marka</th>
         <th>Nazwa</th>
         <th>Adres</th>
         <th>Akcje</th>
@@ -40,7 +39,6 @@
       <tbody>
       <tr v-for="station in stations" :key="station.id">
         <td>{{ station.id }}</td>
-        <td>{{ station.brand_name }}</td>
         <td>{{ station.name }}</td>
         <td>{{ station.address }}</td>
         <td>
@@ -181,7 +179,7 @@ h1 {
 .form-section {
   background-color: rgba(0, 0, 0, 0.7);
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 5px;
   margin-bottom: 30px;
 }
 

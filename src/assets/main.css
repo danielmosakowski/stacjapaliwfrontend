@@ -122,7 +122,7 @@ i {
     }
 
     .navbar-collapse.show {
-        max-height: 300px; /* Dostosuj wysokość do zawartości */
+        max-height: 700px; /* Dostosuj wysokość do zawartości */
     }
 
     .navbar-nav {
