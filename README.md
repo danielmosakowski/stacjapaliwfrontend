@@ -1,4 +1,4 @@
-# Sklep Komputerowy
+# Wacha.pl
 
 **Stacja paliw frontend** to aplikacja umożliwiająca użytkownikom przeglądanie listy oraz mapy stacji paliwowych z filtrami według m.in. marki, rodzaju paliwa i ceny. Użytkownicy mogą zgłaszać ceny paliw a administratorzy zarządzają użytkownikami, stacjami oraz zgłoszonymi cenami. Aplikacja umożliwia nagradzanie użytkowników dodatkowymi punktami.
 
@@ -35,11 +35,6 @@ npm install
 Dla środowiska developerskiego:
 ```bash
 npm run dev
-```
-
-Lub dla środowiska produkcyjnego:
-```bash
-npm run build
 ```
 
 Aplikacja będzie dostępna pod adresem:
